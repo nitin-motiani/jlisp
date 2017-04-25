@@ -11,7 +11,7 @@ public class StringExpression extends ConstantExpression {
 		return value;
 	}
 
-	Expression evaluate() {
+	Expression evaluate(Scope scope) {
 		return this;
 	}
 }

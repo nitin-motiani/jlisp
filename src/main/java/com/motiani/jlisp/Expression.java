@@ -1,5 +1,5 @@
 package com.motiani.jlisp;
 
 abstract class Expression {
-	abstract Expression evaluate();
+	abstract Expression evaluate(Scope scope);
 }

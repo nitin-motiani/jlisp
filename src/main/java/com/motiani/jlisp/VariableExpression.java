@@ -9,7 +9,7 @@ class VariableExpression extends AtomicExpression {
 		this.symbol = symbol;
 	}
 
-	Expression evaluate() {
-		return this;
+	Expression evaluate(Scope scope) {
+		return scope.get(symbol);
 	}
 }

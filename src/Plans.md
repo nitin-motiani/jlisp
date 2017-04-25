@@ -101,11 +101,19 @@ actually doing the computation using native java functions.
 correct type before evaluation. But I can't see a way to make this work easily for dynamic typed stuff. Can make 
 it work for native functions sure, but not sure how to do it for user defined functions
 
-7. Should evaluate method take scope? Or should we have a getCurrentScope thingy going? 
+7. Should evaluate method take scope? Or should we have a getCurrentScope thingy going? Currently I am going to pass the scope
+The scopemanager thing feels more like a global variable shit. If I think of cleaner ways, I can always change the logic.
 
+8. Decided that proc invocation expression would handle the scope creation at least. Whether we need scopemanager or not, I 
+am not 100% certain. 
+
+9. Another big issue, the function thing in proc can't just be a symbol or a variable expression. It can be any expression. 
+Now handling that while parsing is going to be a challenge. 
+
+10. What are we going to do about NIL/NULL thing? 
 
 Exception Types Required :- 
-1. Variable not found
+1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
 2. Condition in if should be boolean type
 
 

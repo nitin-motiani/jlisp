@@ -12,7 +12,7 @@ class BooleanExpression extends ConstantExpression {
 		return this.value;
 	}
 
-	Expression evaluate() {
+	Expression evaluate(Scope scope) {
 		return this;
 	}
 }
