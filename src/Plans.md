@@ -34,6 +34,8 @@ Main classes :-
 abstract class Expression with a method to evaluate
 inheriting classes Atomic expressions and List Expressions
 
+The Atomic and List Expressions inheritance hierarchy will be revisited. 
+
 Inheriting from Atomic Expressions :- 
 
 1. Variable :- Evaluate method should return value of the variable. We'll need to store mappings for this
@@ -46,7 +48,7 @@ mapping from the symbol. Symbol shouldn't already exist at runtime.
 2. Conditionals :- Store condition, if, else expressions and evaluate accordingly. Evaluate logic will use java if which
 is simple enough
 
-3. Proc :- Is a big challenging. You need to store list of expressions as args. That much is given, and a symbol of the proc. 
+3. Proc :- Is a bit challenging. You need to store list of expressions as args. That much is given, and a symbol of the proc. 
 That is basic. It's the evaluate where we have to decide what to do. Whether it's a language provided function (which
 we are going to implement using native java functions) or a user defined one. Some of the details here will be finalized
 later as I think more on lambda. 
@@ -86,6 +88,25 @@ To create a list, the list function should be used, rather than special form quo
 not allowed in usual circumstances. Since we are not doing quote for now, it's okay to ignore. But have to remember 
 that the args in lambda would be handled using list like that, and we need to be careful there. Good thing is that 
 in case of lambda, this will strictly be list of symbols. 
+
+4. How will I make type inference work? Not sure at the point. I think I'll be able to cast things in the native 
+java functions, and if they are wrong type, throw. Check point below for more details. 
+
+5. What should evaluate method of expression return? After thinking through for longer, it seems to make sense that 
+the evaluate methods of expression should return another expression. And we can nest things around expressions in a cleaner 
+way, I think. And the Constant Literals can have a function to get the actual value, which can be used when we are 
+actually doing the computation using native java functions. 
+
+6. Should the function expressions etc have a return type field too? This could go a long way towards figuring out 
+correct type before evaluation. But I can't see a way to make this work easily for dynamic typed stuff. Can make 
+it work for native functions sure, but not sure how to do it for user defined functions
+
+7. Should evaluate method take scope? Or should we have a getCurrentScope thingy going? 
+
+
+Exception Types Required :- 
+1. Variable not found
+2. Condition in if should be boolean type
 
 
 
