@@ -1,7 +1,7 @@
 package com.motiani.jlisp;
 
 final class NumberExpression extends ConstantExpression {
-	Number value;
+	private Number value;
 
 	NumberExpression(Number num) {
 		this.value = num;

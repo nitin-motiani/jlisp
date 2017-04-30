@@ -19,6 +19,8 @@ Things out of scope :-
 So only syntax allowed right now is of type (lambda (r) (...))
 
 No (lambda args ...) or more complicated (lambda (f.x) (...))
+Seems like we are going to allow the syntax with (lambda args) at least. Not the more complicated
+pattern matching though
 
 Not going to implement those in first version for sure. 
 
@@ -138,14 +140,48 @@ the expression is callable or not is the funda. I have gone with this appraoch f
 15. I am starting to wonder how to handle List expression. It's not constant exactly (or is it?) Should I have a getValue
 thing there separately. Should I have a whole different data interface too like callable to have getValue thingy going
 
+16. So after even more thought a radical new design is coming to me. Maybe not everything needs to be an expression. 
+A list for example can be something other than an expression, maybe. I am not really sure if all recursion will work
+well by doing this. But thinking of having a more generic data or some type which just has a get value or something. 
+And then have actual expression interface or something for the shit which gets evaluated. And have separate inteface
+callable for functions. Of course, list is really painful even there. Since it can have expressions inside it. 
+I am really pained about this. And inclusion of quote at some stage will make things even more difficult. 
+
+17. Overall I want to have idea of type and callable, data, and evaluatable interfaces.But it's not concrete
+ currently, and implementing quote can change it later. So not committing to it. 
+ 
+18. All native operations will use anonymous inner class to just do the whole calling thing. While 
+other user defined function expressions will create scope and do things
+
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
 2. Condition in if should be boolean type
+3. Can't be evaluated. Something like just a fucking list
 
 
 Test Expressions :- 
 
 1. (lambda (x) x)
 2. (lambda (x) (x))
-
+3. (1 2 3)
+4. 2
+5. a
+6. (list 1 2 (if (< a 3) 8 10))
+7. (list 1 2 `(if (< a 3) 8 10))
+8. (define fn (lambda () (+ 2 3)
+   (fn)
+   (define a (list fn))
+   ((car a))
+   (define a (list fn))
+   (a)
+   
+9. (define fn2 (lambda (x y) (+ x y)
+   (fn)
+   (define a (list fn))
+   ((car a))
+   ((car a) (cdr a))
+   
+10. (< 2 3 4)
+11. (< 2 8 1)
+   
 
