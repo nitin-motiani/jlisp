@@ -1,6 +1,6 @@
 package com.motiani.jlisp;
 
-class ConditionalExpression extends ListExpression {
+final class ConditionalExpression extends ListExpression {
 	private Expression conditionExpression;
 	private Expression ifExpression;
 	private Expression elseExpression;

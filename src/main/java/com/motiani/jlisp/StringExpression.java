@@ -1,6 +1,6 @@
 package com.motiani.jlisp;
 
-public class StringExpression extends ConstantExpression {
+final class StringExpression extends ConstantExpression {
 	private String value;
 
 	StringExpression(String value) {

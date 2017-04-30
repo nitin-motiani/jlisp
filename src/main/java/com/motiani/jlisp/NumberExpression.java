@@ -1,6 +1,6 @@
 package com.motiani.jlisp;
 
-class NumberExpression extends ConstantExpression {
+final class NumberExpression extends ConstantExpression {
 	Number value;
 
 	NumberExpression(Number num) {

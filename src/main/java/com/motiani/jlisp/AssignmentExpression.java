@@ -1,6 +1,6 @@
 package com.motiani.jlisp;
 
-class AssignmentExpression extends Expression {
+final class AssignmentExpression extends Expression {
 
 	private String variable;
 	private Expression expression;

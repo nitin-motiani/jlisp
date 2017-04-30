@@ -112,11 +112,40 @@ Now handling that while parsing is going to be a challenge.
 
 10. What are we going to do about NIL/NULL thing? 
 
+11. My current plan for Functions is to have an abstract function expression. And inheriting from that 
+
+12. In future, can I look into generics for type inference stuff? Maybe useful for numbers, strings, etc. 
+
+13. First step towards working code is to have fixed number of args for functions. Not a list. Then we'll see. 
+
+14. There is a huge confusion with function stuff. One idea I am playing with is to not have functions as expression type, 
+but rather have a whole different type with a method call. Which handles scope creation and shit like that. The problem
+with that approach is the whole pains of not fitting with expression hierarchy everywhere including the scope
+maps and having problems with things like closures. Having everything be some type of expressions does help. 
+Though if I have to downcast so often, maybe it's not best. Other is to have Function as an expression, but provide
+a whole different method called call or something which does the arg thing and then calls the evaluate with scope. 
+It's not completely clean unfortunately, but could work. 
+
+Another is to have function expressions but wrap up shit in a Invoker to handle bindings etc, and then evaluate function
+but that seems useless and ProceedureExpression can do that. 
+
+In anyway, I need to pass args to function. Not sure yet whether function should create its scope or whether Proc 
+expression should do it? 
+
+Another idea is to have some sort of Callable interface and have function implement it so semantics are clear, whether 
+the expression is callable or not is the funda. I have gone with this appraoch for time being. May have to be changed. 
+
+15. I am starting to wonder how to handle List expression. It's not constant exactly (or is it?) Should I have a getValue
+thing there separately. Should I have a whole different data interface too like callable to have getValue thingy going
+
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
 2. Condition in if should be boolean type
 
 
+Test Expressions :- 
 
+1. (lambda (x) x)
+2. (lambda (x) (x))
 
 

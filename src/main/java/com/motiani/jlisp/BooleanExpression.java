@@ -1,6 +1,6 @@
 package com.motiani.jlisp;
 
-class BooleanExpression extends ConstantExpression {
+final class BooleanExpression extends ConstantExpression {
 
 	Boolean value;
 
