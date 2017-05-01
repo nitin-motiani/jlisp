@@ -157,7 +157,7 @@ Exception Types Required :-
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
 2. Condition in if should be boolean type
 3. Can't be evaluated. Something like just a fucking list
-
+4. Argument numbers mismatch
 
 Test Expressions :- 
 
@@ -183,5 +183,6 @@ Test Expressions :-
    
 10. (< 2 3 4)
 11. (< 2 8 1)
+12. (map (lambda (x) (* 2 x)) (list 2))
    
 
