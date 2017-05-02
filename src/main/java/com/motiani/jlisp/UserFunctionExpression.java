@@ -36,23 +36,19 @@ final class UserFunctionExpression extends FunctionExpression {
 	}
 
 	private Scope createScope(List<Expression> args) {
-		// TODO : For now, only handle constant args case. Will soon handle
-		// variable args case
+		Scope evaluationScope = new Scope(parentScope);
 		if (userFunctionArgType.equals(UserFunctionArgType.CONSTANT_ARGS)) {
 			if (args.size() != this.argNames.size())
 				throw new RuntimeException("Incorrect number of arguments");
 
-			Scope evaluationScope = new Scope(parentScope);
-
 			int numArgs = argNames.size();
 			for (int i = 0; i < numArgs; i++)
 				evaluationScope.create(argNames.get(i), args.get(i));
-
-			return evaluationScope;
 		} else {
-			// TODO: Fix this asap
-			throw new RuntimeException("Incorrect number of arguments");
+			evaluationScope.create(argNames.get(0), new ListExpression(args));
 		}
+
+		return evaluationScope;
 	}
 
 	@Override
