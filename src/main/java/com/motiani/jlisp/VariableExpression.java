@@ -1,6 +1,6 @@
 package com.motiani.jlisp;
 
-final class VariableExpression extends AtomicExpression {
+final class VariableExpression extends Expression {
 	private String symbol;
 
 	VariableExpression(String symbol) {

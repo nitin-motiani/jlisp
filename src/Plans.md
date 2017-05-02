@@ -28,7 +28,9 @@ Not going to implement those in first version for sure.
 
 - Not going to handle reserved words for time being, I think. I am confused here so this point may change. 
 
-
+- Not going for symbol type for time being, I think
+- Quotes are definitely out for time being. But what I have figured is that for reserved things like IF, quote 
+creates some weird symbol. IF is not an expression in proper language, but quote does some weird stuff. 
 
 
 Main classes :- 
@@ -153,6 +155,11 @@ I am really pained about this. And inclusion of quote at some stage will make th
 18. All native operations will use anonymous inner class to just do the whole calling thing. While 
 other user defined function expressions will create scope and do things
 
+19. So going to keep Expression stuff for time being. Maybe can come up with a super type to remove function 
+expressions from evaluable stuff. But for now, it's okay. Keeping that. To handle list and proc confusion, there will 
+be just a list type for that. And evaluate will check that first thing there is an expression which can be evaluated
+to a callable. That way, we are okay, I think
+
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
 2. Condition in if should be boolean type
@@ -184,5 +191,7 @@ Test Expressions :-
 10. (< 2 3 4)
 11. (< 2 8 1)
 12. (map (lambda (x) (* 2 x)) (list 2))
+
+
    
 

@@ -1,6 +1,6 @@
 package com.motiani.jlisp;
 
-final class DefinitionExpression extends ListExpression {
+final class DefinitionExpression extends Expression {
 	private String variable;
 	private Expression expression;
 

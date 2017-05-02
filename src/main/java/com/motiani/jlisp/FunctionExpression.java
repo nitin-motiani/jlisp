@@ -5,7 +5,7 @@ abstract class FunctionExpression extends Expression implements Callable {
 	// comfortable with the idea of an evaluate with a function. But for time
 	// being I'll make do.
 
-	// Overall I want to have idea of type and callable, data, and evaluatable
+	// Overall I want to have idea of type and callable, data, and evaluable
 	// interfaces.
 	// But it's not concrete currently, and implementing quote can change it
 	// later. So not committing to it
