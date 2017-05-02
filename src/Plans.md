@@ -32,13 +32,14 @@ Not going to implement those in first version for sure.
 - Quotes are definitely out for time being. But what I have figured is that for reserved things like IF, quote 
 creates some weird symbol. IF is not an expression in proper language, but quote does some weird stuff. 
 
+- Not allowing () for time being at least
 
 Main classes :- 
 
 abstract class Expression with a method to evaluate
 inheriting classes Atomic expressions and List Expressions
 
-The Atomic and List Expressions inheritance hierarchy will be revisited. 
+The Atomic and List Expressions inheritance hierarchy will be revisited. Removed now
 
 Inheriting from Atomic Expressions :- 
 
@@ -165,6 +166,7 @@ Exception Types Required :-
 2. Condition in if should be boolean type
 3. Can't be evaluated. Something like just a fucking list
 4. Argument numbers mismatch
+5. Not an expression that can be run. (1 2 3) for example. 
 
 Test Expressions :- 
 
