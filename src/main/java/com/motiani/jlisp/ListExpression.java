@@ -1,6 +1,7 @@
 package com.motiani.jlisp;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 // This class stores a list. But if it's evaluated, it will check that first arg should evaluate 
 // to a callable. So it's doing the job of both a proc and a list. Not sure if that's a good way, 
@@ -24,8 +25,9 @@ final class ListExpression extends Expression {
 		if (!(fExp instanceof Callable))
 			throw new RuntimeException("Not a callable.");
 
-		Expression[] args = (Expression[]) expressions.stream().skip(1)
-				.map(expression -> expression.evaluate(scope)).toArray();
+		List<Expression> args = expressions.stream().skip(1)
+				.map(expression -> expression.evaluate(scope))
+				.collect(Collectors.toList());
 
 		return ((Callable) fExp).call(args);
 
