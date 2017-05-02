@@ -5,7 +5,7 @@ import java.util.List;
 
 final class UserFunctionExpression extends FunctionExpression {
 
-	private static enum UserFunctionArgType {
+	static enum UserFunctionArgType {
 		CONSTANT_ARGS, VARIABLE_ARGS
 	}
 
