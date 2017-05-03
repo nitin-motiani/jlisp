@@ -33,6 +33,17 @@ Not going to implement those in first version for sure.
 creates some weird symbol. IF is not an expression in proper language, but quote does some weird stuff. 
 
 - Not allowing () for time being at least
+- A function probably won't have a list of things to do. Not yet at least. Will have to figure out how things
+ like this work : 
+(define (deriv f)
+   
+       (define (f-prime x)
+         (/ (- (f (+ x dx)) (f x))
+            dx))
+
+       f-prime)
+       
+
 
 Main classes :- 
 
@@ -159,7 +170,11 @@ other user defined function expressions will create scope and do things
 19. So going to keep Expression stuff for time being. Maybe can come up with a super type to remove function 
 expressions from evaluable stuff. But for now, it's okay. Keeping that. To handle list and proc confusion, there will 
 be just a list type for that. And evaluate will check that first thing there is an expression which can be evaluated
-to a callable. That way, we are okay, I think
+to a callable. That way, we are okay, I think. 
+
+20. More enlightenment coming. We can have list of expressions (not one list, have to be very careful here). 
+So I am changing User function shit from one expression to list of expressions (not a listexpression) so that 
+we can have multiple statements running in a function
 
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that

@@ -9,22 +9,23 @@ final class LambdaExpression extends Expression {
 
 	private List<String> argNames;
 	private UserFunctionArgType userFunctionArgType;
-	private Expression functionBody;
+	private List<Expression> functionBody;
 
 	private LambdaExpression(List<String> argNames,
-			UserFunctionArgType userFunctionArgType, Expression body) {
+			UserFunctionArgType userFunctionArgType, List<Expression> body) {
 		this.argNames = argNames;
 		this.userFunctionArgType = userFunctionArgType;
 		this.functionBody = body;
 	}
 
 	static LambdaExpression createWithConstArgs(List<String> argNames,
-			Expression body) {
+			List<Expression> body) {
 		return new LambdaExpression(argNames,
 				UserFunctionArgType.CONSTANT_ARGS, body);
 	}
 
-	static LambdaExpression crateWithVarArgs(String argName, Expression body) {
+	static LambdaExpression crateWithVarArgs(String argName,
+			List<Expression> body) {
 		return new LambdaExpression(Collections.singletonList(argName),
 				UserFunctionArgType.VARIABLE_ARGS, body);
 

@@ -9,26 +9,34 @@ final class UserFunctionExpression extends FunctionExpression {
 		CONSTANT_ARGS, VARIABLE_ARGS
 	}
 
-	private Expression body;
+	// Initially this was just one expression, but changed it so that our
+	// function can handle multiple expressions.
+	// This should be a list of expressions, not a ListExpression. We want these
+	// to be evaluated one by one
+	private List<Expression> body;
 	private List<String> argNames;
 	private UserFunctionArgType userFunctionArgType;
 	private Scope parentScope;
 
-	private UserFunctionExpression(Expression body, List<String> argNames,
-			UserFunctionArgType userFunctionArgType, Scope parentScope) {
+	private UserFunctionExpression(List<Expression> body,
+			List<String> argNames, UserFunctionArgType userFunctionArgType,
+			Scope parentScope) {
 		this.body = body;
 		this.argNames = argNames;
 		this.userFunctionArgType = userFunctionArgType;
 		this.parentScope = parentScope;
 	}
 
-	static UserFunctionExpression createWithConstArgs(Expression body,
+	// TODO: Don't particularly like the fact that both lambda and user function
+	// expressions have copied code for some of this stuff. Will possibly
+	// refactor that to make slightly cleaner at some point
+	static UserFunctionExpression createWithConstArgs(List<Expression> body,
 			List<String> argNames, Scope parentScope) {
 		return new UserFunctionExpression(body, argNames,
 				UserFunctionArgType.CONSTANT_ARGS, parentScope);
 	}
 
-	static UserFunctionExpression createWithVarArgs(Expression body,
+	static UserFunctionExpression createWithVarArgs(List<Expression> body,
 			String argName, Scope parentScope) {
 		return new UserFunctionExpression(body,
 				Collections.singletonList(argName),
@@ -54,7 +62,13 @@ final class UserFunctionExpression extends FunctionExpression {
 	@Override
 	public Expression call(List<Expression> args) {
 		Scope scope = createScope(args);
-		return body.evaluate(scope);
+		Expression solution = null;
+		for (Expression expr : body) {
+			solution = expr.evaluate(scope);
+		}
+
+		// Return the result of last expression
+		return solution;
 	}
 
 }
