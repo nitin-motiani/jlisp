@@ -157,11 +157,11 @@ thing there separately. Should I have a whole different data interface too like 
 16. So after even more thought a radical new design is coming to me. Maybe not everything needs to be an expression. 
 A list for example can be something other than an expression, maybe. I am not really sure if all recursion will work
 well by doing this. But thinking of having a more generic data or some type which just has a get value or something. 
-And then have actual expression interface or something for the shit which gets evaluated. And have separate inteface
+And then have actual expression interface or something for the shit which gets evaluated. And have separate interface
 callable for functions. Of course, list is really painful even there. Since it can have expressions inside it. 
 I am really pained about this. And inclusion of quote at some stage will make things even more difficult. 
 
-17. Overall I want to have idea of type and callable, data, and evaluatable interfaces.But it's not concrete
+17. Overall I want to have idea of type and callable, data, and evaluable interfaces.But it's not concrete
  currently, and implementing quote can change it later. So not committing to it. 
  
 18. All native operations will use anonymous inner class to just do the whole calling thing. While 
@@ -175,6 +175,9 @@ to a callable. That way, we are okay, I think.
 20. More enlightenment coming. We can have list of expressions (not one list, have to be very careful here). 
 So I am changing User function shit from one expression to list of expressions (not a listexpression) so that 
 we can have multiple statements running in a function
+
+21. Wonder what's better. String or variable expressions for names in Definition, Assignment, Lambda and Function 
+expressions. 
 
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
@@ -208,7 +211,7 @@ Test Expressions :-
 10. (< 2 3 4)
 11. (< 2 8 1)
 12. (map (lambda (x) (* 2 x)) (list 2))
-
+13. (define * (lambda (x y) (+ x y))
 
    
 
