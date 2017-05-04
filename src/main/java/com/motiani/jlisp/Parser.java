@@ -2,16 +2,24 @@ package com.motiani.jlisp;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Parser {
 
-	private List<String> tokanize(String exp) {
-		return new ArrayList<>();
+	// The reason for return linked list is that we can easily peek top elements
+	// and pop them from a linked list
+	private LinkedList<String> tokanize(String exp) {
+		if (exp == null)
+			throw new IllegalArgumentException("Can't parse null expression");
+		String expModified = exp.replace("(", " ( ").replace(")", " ) ");
+		return Arrays.stream(expModified.split(" ")).collect(
+				Collectors.toCollection(LinkedList::new));s
 	}
 
-	private Expression parse(List<String> tokens, int index) {
+	private Expression parse(LinkedList<String> tokens) {
 		return null;
 	}
 
@@ -36,29 +44,30 @@ class Parser {
 		return new StringExpression(token);
 	}
 
-	private DefinitionExpression parseDefinition(List<String> tokens, int index) {
+	private DefinitionExpression parseDefinition(LinkedList<String> tokens) {
 		return null;
 	}
 
-	private AssignmentExpression parseAssignment(List<String> tokens, int index) {
+	private AssignmentExpression parseAssignment(LinkedList<String> tokens) {
 		return null;
 	}
 
-	private ConditionalExpression parseConditional(List<String> tokens,
-			int index) {
+	private ConditionalExpression parseConditional(LinkedList<String> tokens) {
 		return null;
 	}
 
-	private ListExpression parseList(List<String> tokens, int index) {
+	private ListExpression parseList(LinkedList<String> tokens) {
 		return null;
 	}
 
-	private LambdaExpression parseLambda(List<String> tokens, int index) {
+	private LambdaExpression parseLambda(LinkedList<String> tokens) {
 		return null;
 	}
 
 	Expression parse(String expStr) {
-		List<String> tokens = tokanize(expStr);
-		return parse(tokens, 0);
+		if (expStr == null)
+			throw new IllegalArgumentException("Can't parse null expression");
+		LinkedList<String> tokens = tokanize(expStr);
+		return parse(tokens);
 	}
 }
