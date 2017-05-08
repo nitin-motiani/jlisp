@@ -56,6 +56,8 @@ Inheriting from Atomic Expressions :-
 
 1. Variable :- Evaluate method should return value of the variable. We'll need to store mappings for this
 2. Constant Literal :- evaluate should just return literal. We might just store numbers and strings here. Will finalize that later. 
+Getting rid of strings. Going to have numbers and booleans for time being. Including Strings means, a lot more
+pain in parsing. 
 
 Inheriting from List Expressions :- 
 1. Definitions :- Going to have a symbol and expression. When we run it, the expression will be evaluated and stored with 
@@ -179,6 +181,14 @@ we can have multiple statements running in a function
 21. Wonder what's better. String or variable expressions for names in Definition, Assignment, Lambda and Function 
 expressions. 
 
+22. I am really pained about list doubling as procedure to be honest :( 
+
+23. At some point, I'll have to make things make sense in terms of list and proc and other forms. Current design seems 
+ugly. If I could think of a good way to handle symbols and shit, maybe I can introduce next level of hiearchy, and 
+be done with it. 
+
+24. Booleans and integers don't automatically get cast to each other, so that's nice
+
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
 2. Condition in if should be boolean type
@@ -212,6 +222,7 @@ Test Expressions :-
 11. (< 2 8 1)
 12. (map (lambda (x) (* 2 x)) (list 2))
 13. (define * (lambda (x y) (+ x y))
+14. (+ (equal? 1 0) 2)
 
    
 
