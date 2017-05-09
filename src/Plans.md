@@ -195,6 +195,8 @@ Exception Types Required :-
 3. Can't be evaluated. Something like just a fucking list
 4. Argument numbers mismatch
 5. Not an expression that can be run. (1 2 3) for example. 
+6. Invalid variable name
+7. Paran mismatch
 
 Test Expressions :- 
 

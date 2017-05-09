@@ -24,7 +24,7 @@ final class LambdaExpression extends Expression {
 				UserFunctionArgType.CONSTANT_ARGS, body);
 	}
 
-	static LambdaExpression crateWithVarArgs(String argName,
+	static LambdaExpression createWithVarArgs(String argName,
 			List<Expression> body) {
 		return new LambdaExpression(Collections.singletonList(argName),
 				UserFunctionArgType.VARIABLE_ARGS, body);
