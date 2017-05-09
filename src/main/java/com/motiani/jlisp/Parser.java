@@ -1,7 +1,6 @@
 package com.motiani.jlisp;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -51,6 +50,10 @@ class Parser {
 				.equals("false"));
 	}
 
+	private boolean isValidVariable(String token) {
+		return (!reserved.contains(token.toLowerCase()));
+	}
+
 	private Expression parseAtomicExpression(String token) {
 		if (isValidNumber(token))
 			return parseNumber(token);
@@ -85,16 +88,8 @@ class Parser {
 		}
 	}
 
-	private boolean isValidVariable(String token) {
-		return (!reserved.contains(token.toLowerCase()));
-	}
-
 	private NumberExpression parseNumber(String token) {
-		try {
-			return new NumberExpression(NumberFormat.getInstance().parse(token));
-		} catch (ParseException ex) {
-			throw new IllegalArgumentException(ex);
-		}
+		return new NumberExpression(new BigDecimal(token));
 	}
 
 	private BooleanExpression parseBoolean(String token) {

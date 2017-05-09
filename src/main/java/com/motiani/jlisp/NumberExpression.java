@@ -1,13 +1,15 @@
 package com.motiani.jlisp;
 
-final class NumberExpression extends ConstantExpression {
-	private Number value;
+import java.math.BigDecimal;
 
-	NumberExpression(Number num) {
+final class NumberExpression extends ConstantExpression {
+	private BigDecimal value;
+
+	NumberExpression(BigDecimal num) {
 		this.value = num;
 	}
 
-	Number getValue() {
+	BigDecimal getValue() {
 		return this.value;
 	}
 

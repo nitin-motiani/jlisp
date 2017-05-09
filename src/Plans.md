@@ -189,6 +189,8 @@ be done with it.
 
 24. Booleans and integers don't automatically get cast to each other, so that's nice
 
+25. Moving to use BigDecimals for Numbers. Else can't do operations on abstract Number class
+
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
 2. Condition in if should be boolean type
@@ -225,6 +227,17 @@ Test Expressions :-
 12. (map (lambda (x) (* 2 x)) (list 2))
 13. (define * (lambda (x y) (+ x y))
 14. (+ (equal? 1 0) 2)
+15. (+)
+16. (+ 1)
+17. (-)
+18. (- 1)
+19. (- 1 2 3 4)
+20. (*)
+21. (* 2)
+22. (/)
+23. (/ 2)
+24. (/ 1 2 3 4)
+25. (/ 1 0)
 
    
 
