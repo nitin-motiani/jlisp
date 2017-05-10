@@ -2,6 +2,7 @@ package com.motiani.jlisp;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class NativeFunctions {
 	static FunctionExpression addition() {
@@ -113,6 +114,49 @@ class NativeFunctions {
 
 				BigDecimal result = arg0.divide(product);
 				return new NumberExpression(result);
+			}
+		};
+	}
+
+	static FunctionExpression abs() {
+		return new FunctionExpression() {
+			@Override
+			public Expression call(List<Expression> args) {
+				if (args.size() != 1) {
+					throw new IllegalArgumentException(
+							"abs can take exactly one argument");
+				}
+
+				if (!(args.get(0) instanceof NumberExpression))
+					throw new IllegalArgumentException(
+							"abs can take only numeric argument");
+
+				BigDecimal result = ((NumberExpression) args.get(0)).getValue()
+						.abs();
+
+				return new NumberExpression(result);
+			}
+		};
+	}
+
+	static FunctionExpression numberEquality() {
+		return new FunctionExpression() {
+			@Override
+			public Expression call(List<Expression> args) {
+				Boolean result = args.isEmpty()
+						|| args.stream()
+								.map(expression -> {
+									if (expression instanceof NumberExpression)
+										return ((NumberExpression) expression)
+												.getValue();
+									else
+										throw new IllegalArgumentException(
+												"Invalid argument "
+														+ expression
+														+ " for subtraction");
+								}).collect(Collectors.toSet()).size() == 1;
+
+				return new BooleanExpression(result);
 			}
 		};
 	}

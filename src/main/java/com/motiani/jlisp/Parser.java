@@ -16,7 +16,7 @@ import com.motiani.jlisp.UserFunctionExpression.UserFunctionArgType;
 class Parser {
 
 	private final List<String> reserved = Arrays.asList("if", "define", "set!",
-			"(", "lambda");
+			"(", ")", "lambda");
 
 	// The reason for return linked list is that we can easily peek top elements
 	// and pop them from a linked list
