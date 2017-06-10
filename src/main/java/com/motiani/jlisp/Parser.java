@@ -179,6 +179,8 @@ class Parser {
 
 		UserFunctionArgType argType;
 		List<String> args;
+		// TODO: At this point, there is similar redundant code in three places.
+		// Need to clean this in the refactor
 		if (tokens.get(0).equals("(")) {
 			argType = UserFunctionArgType.CONSTANT_ARGS;
 			args = new ArrayList<>();
