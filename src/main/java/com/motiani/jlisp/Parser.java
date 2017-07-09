@@ -18,8 +18,8 @@ class Parser {
 	private final List<String> reserved = Arrays.asList("if", "define", "set!",
 			"(", ")", "lambda");
 
-	// The reason for return linked list is that we can easily peek top elements
-	// and pop them from a linked list
+	// The reason for return type linked list is that we can easily peek top
+	// elements and pop them from a linked list
 	private LinkedList<String> tokanize(String exp) {
 		if (exp == null)
 			throw new IllegalArgumentException("Can't parse null expression");
