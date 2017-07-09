@@ -27,6 +27,10 @@ public class REPL {
 			String input = sc.nextLine();
 			Expression ex = parser.parse(input);
 			Expression result = ex.evaluate(globalScope);
+			if (result instanceof ConstantExpression)
+				System.out.println(((ConstantExpression) result).getValue());
+			else
+				System.out.println("Will do something");
 		}
 	}
 }

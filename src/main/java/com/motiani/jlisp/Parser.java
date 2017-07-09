@@ -24,8 +24,10 @@ class Parser {
 		if (exp == null)
 			throw new IllegalArgumentException("Can't parse null expression");
 		String expModified = exp.replace("(", " ( ").replace(")", " ) ");
-		return Arrays.stream(expModified.split(" ")).collect(
-				Collectors.toCollection(LinkedList::new));
+		return Arrays.stream(expModified.split(" "))
+				// This is a shit hack
+				.filter(s -> !s.isEmpty())
+				.collect(Collectors.toCollection(LinkedList::new));
 	}
 
 	private Expression parse(LinkedList<String> tokens) {
@@ -156,7 +158,9 @@ class Parser {
 
 	private ListExpression parseList(LinkedList<String> tokens) {
 		tokens.removeFirst();
-		tokens.removeFirst();
+		// Only case where I shouldn't have repeated this twice, and I did.
+		// Really need to fix the parser
+		// tokens.removeFirst();
 
 		List<Expression> expressions = new ArrayList<>();
 		while (tokens.size() > 0 && !tokens.get(0).equals(")")) {

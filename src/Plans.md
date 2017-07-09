@@ -191,6 +191,9 @@ be done with it.
 
 25. Moving to use BigDecimals for Numbers. Else can't do operations on abstract Number class
 
+26. Seems to me our parser will tank on multiple expressions in a row type thing. Example 
+a (+ 1 2). Will handle this later
+
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
 2. Condition in if should be boolean type

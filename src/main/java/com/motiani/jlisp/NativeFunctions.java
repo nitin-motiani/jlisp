@@ -1,10 +1,13 @@
 package com.motiani.jlisp;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
 class NativeFunctions {
+	static int PRECISION = 6;
+
 	static FunctionExpression addition() {
 		return new FunctionExpression() {
 			@Override
@@ -112,7 +115,10 @@ class NativeFunctions {
 												+ " for subtraction");
 						}).reduce(BigDecimal.ONE, BigDecimal::multiply);
 
-				BigDecimal result = arg0.divide(product);
+				// TODO: Maybe should store these as actual fractions like
+				// scheme seems to do, but for some other time.
+				BigDecimal result = arg0.divide(product, PRECISION,
+						RoundingMode.HALF_EVEN);
 				return new NumberExpression(result);
 			}
 		};
