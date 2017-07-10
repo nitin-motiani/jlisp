@@ -14,6 +14,11 @@ final class ListExpression extends Expression {
 		this.expressions = expressions;
 	}
 
+	// TODO: Is this a good function to have really?
+	List<Expression> getExpressions() {
+		return expressions;
+	}
+
 	Expression evaluate(Scope scope) {
 		if (expressions == null || expressions.size() == 0)
 			throw new RuntimeException("Not a valid expression to run");

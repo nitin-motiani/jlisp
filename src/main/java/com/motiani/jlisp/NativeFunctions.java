@@ -2,9 +2,12 @@ package com.motiani.jlisp;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// TODO: Does it make sense to implement these functions in their respective classes and only have wrappers here? 
+// For example, have all arithmetic stuff in NumberExpression, and car in ListExpression
 class NativeFunctions {
 	static int PRECISION = 6;
 
@@ -163,6 +166,80 @@ class NativeFunctions {
 								}).collect(Collectors.toSet()).size() == 1;
 
 				return new BooleanExpression(result);
+			}
+		};
+	}
+
+	static FunctionExpression car() {
+		return new FunctionExpression() {
+
+			@Override
+			public Expression call(List<Expression> args) {
+				if (args.size() != 1) {
+					throw new IllegalArgumentException(
+							"car can take exactly one argument");
+				}
+
+				if (!(args.get(0) instanceof ListExpression))
+					throw new IllegalArgumentException(
+							"car can take only list argument");
+
+				return ((ListExpression) args.get(0)).getExpressions().get(0);
+			}
+		};
+
+	}
+
+	static FunctionExpression list() {
+		return new FunctionExpression() {
+
+			@Override
+			public Expression call(List<Expression> args) {
+				return new ListExpression(args);
+			}
+		};
+	}
+
+	static FunctionExpression map() {
+		return new FunctionExpression() {
+
+			@Override
+			public Expression call(List<Expression> args) {
+				if (args.size() < 2)
+					throw new IllegalArgumentException(
+							"map needs at least 2 arguments");
+				if (!(args.get(0) instanceof Callable))
+					throw new IllegalArgumentException(
+							"Need to provide a callable as first argument");
+
+				int resultSize = args
+						.stream()
+						.skip(1)
+						.map(arg -> {
+							if (!(arg instanceof ListExpression)) {
+								throw new IllegalArgumentException(
+										"Invalid argument " + arg.toString()
+												+ " for map. Should be a list");
+							}
+
+							return ((ListExpression) arg).getExpressions()
+									.size();
+						}).min(Integer::compare).get();
+
+				Callable callable = (Callable) args.get(0);
+				int numArgs = args.size() - 1;
+				List<Expression> resultExpressions = new ArrayList<>(resultSize);
+				for (int i = 0; i < resultSize; i++) {
+					List<Expression> callableArgs = new ArrayList<>(numArgs);
+					for (int j = 0; j < numArgs; j++) {
+						callableArgs.add(((ListExpression) args.get(j))
+								.getExpressions().get(i));
+					}
+
+					resultExpressions.add(callable.call(callableArgs));
+				}
+
+				return new ListExpression(resultExpressions);
 			}
 		};
 	}

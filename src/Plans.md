@@ -246,6 +246,8 @@ Test Expressions :-
 28. (= 1 2 2 2)
 29. )
 30. (abs 2 3)
-
-   
-
+31. (list (+ 1 2) 3)
+32. (map + (list 1 2 3))
+33. (map + (list 1 2 3) (list 4 5))
+34. (map (lambda (x) x) (list 1 2 3) (list 2 3))
+35. (map +)
