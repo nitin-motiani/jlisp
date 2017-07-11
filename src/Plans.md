@@ -228,7 +228,7 @@ Test Expressions :-
 10. (< 2 3 4)
 11. (< 2 8 1)
 12. (map (lambda (x) (* 2 x)) (list 2))
-13. (define * (lambda (x y) (+ x y))
+13. (define * (lambda (x y) (+ x y)))
 14. (+ (equal? 1 0) 2)
 15. (+)
 16. (+ 1)
@@ -251,3 +251,13 @@ Test Expressions :-
 33. (map + (list 1 2 3) (list 4 5))
 34. (map (lambda (x) x) (list 1 2 3) (list 2 3))
 35. (map +)
+36. (list 1 2 (if (= a 3) (+ 1 29) (/ 2 0)))
+37. (define f (lambda (x) x))
+38. (map (lambda (x) (* 2 x)) (list 1 2 3))
+39. (map (lambda (x) (* 2 x) (list 2)))
+40. (map (lambda (x) (* 2 x) (list 2)) (list 1 2 3))
+41. (define f2 (lambda (x) (x)) - need better error message
+42. (define f2 (lambda (x) (x)))
+    (define f3 (lambda () (+ 2 3)))
+    (f2 f3)
+    

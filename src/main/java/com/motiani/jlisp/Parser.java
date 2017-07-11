@@ -195,6 +195,9 @@ class Parser {
 
 			if (tokens.size() == 0)
 				throw new IllegalArgumentException("Parantheses mismatch");
+
+			// Remove the closing paran of args name list
+			tokens.removeFirst();
 		} else {
 			argType = UserFunctionArgType.VARIABLE_ARGS;
 			args = Collections.singletonList(tokens.removeFirst());

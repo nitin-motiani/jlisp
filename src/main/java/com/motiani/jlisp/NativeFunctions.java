@@ -231,7 +231,8 @@ class NativeFunctions {
 				List<Expression> resultExpressions = new ArrayList<>(resultSize);
 				for (int i = 0; i < resultSize; i++) {
 					List<Expression> callableArgs = new ArrayList<>(numArgs);
-					for (int j = 0; j < numArgs; j++) {
+					// Start with 1 as first arg is the callable
+					for (int j = 1; j <= numArgs; j++) {
 						callableArgs.add(((ListExpression) args.get(j))
 								.getExpressions().get(i));
 					}
