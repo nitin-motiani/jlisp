@@ -190,6 +190,30 @@ class NativeFunctions {
 
 	}
 
+	static FunctionExpression cdr() {
+		return new FunctionExpression() {
+
+			@Override
+			public Expression call(List<Expression> args) {
+				if (args.size() != 1) {
+					throw new IllegalArgumentException(
+							"cdr can take exactly one argument");
+				}
+
+				if (!(args.get(0) instanceof ListExpression))
+					throw new IllegalArgumentException(
+							"cdr can take only list argument");
+
+				List<Expression> cdrExprs = ((ListExpression) args.get(0))
+						.getExpressions().stream().skip(1)
+						.collect(Collectors.toList());
+
+				return new ListExpression(cdrExprs);
+			}
+		};
+
+	}
+
 	static FunctionExpression list() {
 		return new FunctionExpression() {
 

@@ -18,6 +18,7 @@ public class REPL {
 		scope.create("list", NativeFunctions.list());
 		scope.create("map", NativeFunctions.map());
 		scope.create("car", NativeFunctions.car());
+		scope.create("cdr", NativeFunctions.cdr());
 
 		return scope;
 	}

@@ -220,10 +220,13 @@ Test Expressions :-
    (a)
    
 9. (define fn2 (lambda (x y) (+ x y)
-   (fn)
-   (define a (list fn))
+   (fn 2 3)
+   (define a (list fn 2 3))
    ((car a))
    ((car a) (cdr a))
+   ((car a) (car (cdr a)) (cdr (cdr a)))
+   ((car a) (car (cdr a)) (car (cdr (cdr a))))
+   
    
 10. (< 2 3 4)
 11. (< 2 8 1)
