@@ -34,23 +34,7 @@ public class REPL {
 				String input = sc.nextLine();
 				Expression ex = parser.parse(input);
 				Expression result = ex.evaluate(globalScope);
-				if (result instanceof ConstantExpression)
-					System.out
-							.println(((ConstantExpression) result).getValue());
-				else if (result instanceof ListExpression) {
-					System.out.print("(");
-					for (Expression expr : ((ListExpression) result)
-							.getExpressions()) {
-						if (expr instanceof ConstantExpression)
-							System.out.print(((ConstantExpression) expr)
-									.getValue() + " ");
-						else {
-							System.out.println("Some-element");
-						}
-					}
-					System.out.println(")");
-				} else
-					System.out.println("Will do something");
+				System.out.println(result.getPrintValue());
 			} catch (Exception e) {
 				System.out.println(e);
 			}

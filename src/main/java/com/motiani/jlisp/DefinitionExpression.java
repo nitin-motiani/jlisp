@@ -9,6 +9,12 @@ final class DefinitionExpression extends Expression {
 		this.expression = expression;
 	}
 
+	// This doesn't make sense right now. Will be revisited when we implement
+	// quote
+	String getPrintValue() {
+		return "definition";
+	}
+
 	Expression evaluate(Scope scope) {
 		scope.create(variable, expression.evaluate(scope));
 		// TODO: Figure this out. Currently doing this in accordance with what

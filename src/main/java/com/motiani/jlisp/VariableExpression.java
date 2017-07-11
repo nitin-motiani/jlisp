@@ -10,4 +10,10 @@ final class VariableExpression extends Expression {
 	Expression evaluate(Scope scope) {
 		return scope.get(symbol);
 	}
+
+	// This doesn't make sense right now. Will be revisited when we implement
+	// quote
+	String getPrintValue() {
+		return symbol;
+	}
 }

@@ -12,4 +12,8 @@ abstract class FunctionExpression extends Expression implements Callable {
 	Expression evaluate(Scope scope) {
 		return this;
 	}
+
+	String getPrintValue() {
+		return "function";
+	}
 }

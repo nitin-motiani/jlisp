@@ -12,6 +12,12 @@ final class ConditionalExpression extends Expression {
 		this.elseExpression = elseExpression;
 	}
 
+	// This doesn't make sense right now. Will be revisited when we implement
+	// quote
+	String getPrintValue() {
+		return "conditional";
+	}
+
 	Expression evaluate(Scope scope) {
 		// TODO: Are there better ways to figure out the return type of the
 		// expression before we evaluate everything.

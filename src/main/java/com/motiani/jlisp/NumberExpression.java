@@ -16,4 +16,8 @@ final class NumberExpression extends ConstantExpression {
 	Expression evaluate(Scope scope) {
 		return this;
 	}
+
+	String getPrintValue() {
+		return this.value.toString();
+	}
 }

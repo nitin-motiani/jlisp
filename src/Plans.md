@@ -264,3 +264,10 @@ Test Expressions :-
     (define f3 (lambda () (+ 2 3)))
     (f2 f3)
     
+43. (define closure (lambda (n) (lambda () (set! n (+ n 1)) n)))
+    (define test (closure 2))
+    (test)
+    (test)
+    (test)
+    
+    

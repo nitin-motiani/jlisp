@@ -39,4 +39,10 @@ final class LambdaExpression extends Expression {
 			return UserFunctionExpression.createWithVarArgs(functionBody,
 					argNames.get(0), scope);
 	}
+
+	// This doesn't make sense right now. Will be revisited when we implement
+	// quote
+	String getPrintValue() {
+		return "lambda";
+	}
 }

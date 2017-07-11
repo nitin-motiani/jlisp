@@ -37,4 +37,11 @@ final class ListExpression extends Expression {
 		return ((Callable) fExp).call(args);
 
 	}
+
+	String getPrintValue() {
+		String value = this.expressions.stream()
+				.map(expr -> expr.getPrintValue())
+				.collect(Collectors.joining(" "));
+		return "(" + value + ")";
+	}
 }
