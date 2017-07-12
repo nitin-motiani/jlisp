@@ -24,9 +24,7 @@ class Scope {
 			return parentScope.get(variable);
 		}
 
-		// TODO: Decide whether to return null in this case or throw an
-		// exception.
-		return null;
+		throw new RuntimeException("Variable " + variable + " is not defined");
 	}
 
 	void create(String variable, Expression expression) {
