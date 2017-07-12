@@ -26,10 +26,11 @@ public class REPL {
 	public static void main(String[] args) {
 		Parser parser = new Parser();
 		Scope globalScope = createGlobalScope();
-		// TODO: Use ctrl + D at some point for the closing of the REPL, and
-		// close scanner
+
 		Scanner sc = new Scanner(System.in);
-		while (true) {
+		// When Ctrl + D is hit, hasNextLine returns false. So we end the loop,
+		// and close the scanner
+		while (sc.hasNextLine()) {
 			try {
 				String input = sc.nextLine();
 				Expression ex = parser.parse(input);
@@ -39,5 +40,7 @@ public class REPL {
 				System.out.println(e);
 			}
 		}
+
+		sc.close();
 	}
 }
