@@ -228,6 +228,12 @@ class Parser {
 		if (expStr == null)
 			throw new IllegalArgumentException("Can't parse null expression");
 		LinkedList<String> tokens = tokanize(expStr);
-		return parse(tokens);
+		Expression expression = parse(tokens);
+
+		// We should've parsed all the tokens by this point.
+		if (tokens.size() > 0) {
+			throw new IllegalArgumentException("Invalid token " + tokens.get(0));
+		}
+		return expression;
 	}
 }
