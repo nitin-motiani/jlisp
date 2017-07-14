@@ -17,6 +17,6 @@ final class DefinitionExpression extends Expression {
 
 	public Type evaluate(Scope scope) {
 		scope.create(variable, expression.evaluate(scope));
-		return new VariableExpression(variable);
+		return new SymbolExpression(variable);
 	}
 }

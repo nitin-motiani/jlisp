@@ -98,9 +98,9 @@ class Parser {
 		return new BooleanExpression(Boolean.parseBoolean(token));
 	}
 
-	private VariableExpression parseVariable(String token) {
+	private SymbolExpression parseVariable(String token) {
 		// TODO: Check for valid variable
-		return new VariableExpression(token);
+		return new SymbolExpression(token);
 	}
 
 	private DefinitionExpression parseDefinition(LinkedList<String> tokens) {
