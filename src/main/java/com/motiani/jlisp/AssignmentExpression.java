@@ -16,7 +16,7 @@ final class AssignmentExpression extends Expression {
 		return "assignment";
 	}
 
-	Expression evaluate(Scope scope) {
+	public Type evaluate(Scope scope) {
 		scope.modify(variable, expression.evaluate(scope));
 		// TODO: Change this to make it consistent with the scheme REPL. Though
 		// it maybe useless anyway

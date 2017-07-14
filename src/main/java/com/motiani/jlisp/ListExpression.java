@@ -8,30 +8,30 @@ import java.util.stream.Collectors;
 // but that's what I am keeping for time being. 
 final class ListExpression extends Expression {
 
-	private List<Expression> expressions;
+	private List<Type> items;
 
-	ListExpression(List<Expression> expressions) {
-		this.expressions = expressions;
+	ListExpression(List<Type> items) {
+		this.items = items;
 	}
 
 	// TODO: Is this a good function to have really?
-	List<Expression> getExpressions() {
-		return expressions;
+	List<Type> getItems() {
+		return items;
 	}
 
-	Expression evaluate(Scope scope) {
-		if (expressions == null || expressions.size() == 0)
+	public Type evaluate(Scope scope) {
+		if (items == null || items.size() == 0)
 			throw new RuntimeException("Not a valid expression to run");
 
-		Expression fExp = expressions.get(0).evaluate(scope);
+		Type fExp = ((Evaluable) items.get(0)).evaluate(scope);
 
 		// TODO: Is there ever any way of getting rid of instanceof and
 		// downcasting
 		if (!(fExp instanceof Callable))
 			throw new RuntimeException("Not a callable.");
 
-		List<Expression> args = expressions.stream().skip(1)
-				.map(expression -> expression.evaluate(scope))
+		List<Type> args = items.stream().skip(1)
+				.map(expression -> ((Expression) expression).evaluate(scope))
 				.collect(Collectors.toList());
 
 		return ((Callable) fExp).call(args);
@@ -39,8 +39,7 @@ final class ListExpression extends Expression {
 	}
 
 	String getPrintValue() {
-		String value = this.expressions.stream()
-				.map(expr -> expr.getPrintValue())
+		String value = this.items.stream().map(expr -> expr.getPrintValue())
 				.collect(Collectors.joining(" "));
 		return "(" + value + ")";
 	}

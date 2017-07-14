@@ -16,7 +16,7 @@ final class StringExpression extends ConstantExpression {
 		return value;
 	}
 
-	Expression evaluate(Scope scope) {
+	public Type evaluate(Scope scope) {
 		return this;
 	}
 }

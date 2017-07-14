@@ -162,7 +162,7 @@ class Parser {
 		// Really need to fix the parser
 		// tokens.removeFirst();
 
-		List<Expression> expressions = new ArrayList<>();
+		List<Type> expressions = new ArrayList<>();
 		while (tokens.size() > 0 && !tokens.get(0).equals(")")) {
 			expressions.add(parse(tokens));
 		}

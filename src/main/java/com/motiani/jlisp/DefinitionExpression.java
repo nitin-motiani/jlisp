@@ -15,10 +15,8 @@ final class DefinitionExpression extends Expression {
 		return "definition";
 	}
 
-	Expression evaluate(Scope scope) {
+	public Type evaluate(Scope scope) {
 		scope.create(variable, expression.evaluate(scope));
-		// TODO: Figure this out. Currently doing this in accordance with what
-		// the scheme REPL shows me
 		return new VariableExpression(variable);
 	}
 }

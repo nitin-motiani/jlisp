@@ -3,7 +3,7 @@ package com.motiani.jlisp;
 import java.util.Collections;
 import java.util.List;
 
-final class UserFunctionExpression extends FunctionExpression {
+final class UserFunctionExpression extends Function {
 
 	static enum UserFunctionArgType {
 		CONSTANT_ARGS, VARIABLE_ARGS
@@ -43,7 +43,7 @@ final class UserFunctionExpression extends FunctionExpression {
 				UserFunctionArgType.VARIABLE_ARGS, parentScope);
 	}
 
-	private Scope createScope(List<Expression> args) {
+	private Scope createScope(List<Type> args) {
 		Scope evaluationScope = new Scope(parentScope);
 		if (userFunctionArgType.equals(UserFunctionArgType.CONSTANT_ARGS)) {
 			if (args.size() != this.argNames.size())
@@ -60,9 +60,9 @@ final class UserFunctionExpression extends FunctionExpression {
 	}
 
 	@Override
-	public Expression call(List<Expression> args) {
+	public Type call(List<Type> args) {
 		Scope scope = createScope(args);
-		Expression solution = null;
+		Type solution = null;
 		for (Expression expr : body) {
 			solution = expr.evaluate(scope);
 		}

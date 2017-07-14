@@ -292,7 +292,7 @@ too. And then hierarchy can be divided into just types. And then we can have eva
 just have a print pretty type shit. Seems so far that string, booleans, and strings are self evaluating. So won't 
 hurt to have a self evaluating type interface if I go that route. If I do have such hierarchies. Symbol should be a 
 type and not an expresion (evaluable). And function should be callable only. Also the special forms may end up 
-keeping their separate classes by the argument that for things like define, set! etc first argument is not an 
+keeping their separate class	es by the argument that for things like define, set! etc first argument is not an 
 expression to be evaluated, but a string(in v1)/symbol(in v2). 
 
 The problem with the approach of having special form classes be completely separate is that I won't be able to 
@@ -370,3 +370,5 @@ function.
 13. (define lel (quote (lambda args (car args))))
     (symbol? (car (cdr lel)))
     (symbol? (car (car (cdr (cdr lel)))))
+    
+    

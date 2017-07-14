@@ -36,7 +36,7 @@ public class REPL {
 			try {
 				String input = sc.nextLine();
 				Expression ex = parser.parse(input);
-				Expression result = ex.evaluate(globalScope);
+				Type result = ex.evaluate(globalScope);
 				System.out.println(result.getPrintValue());
 			} catch (Exception e) {
 				System.out.println(e);

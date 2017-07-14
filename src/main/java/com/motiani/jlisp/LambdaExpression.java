@@ -31,7 +31,7 @@ final class LambdaExpression extends Expression {
 
 	}
 
-	Expression evaluate(Scope scope) {
+	public Type evaluate(Scope scope) {
 		if (userFunctionArgType.equals(UserFunctionArgType.CONSTANT_ARGS))
 			return UserFunctionExpression.createWithConstArgs(functionBody,
 					argNames, scope);

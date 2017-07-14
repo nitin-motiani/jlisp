@@ -18,10 +18,10 @@ final class ConditionalExpression extends Expression {
 		return "conditional";
 	}
 
-	Expression evaluate(Scope scope) {
+	public Type evaluate(Scope scope) {
 		// TODO: Are there better ways to figure out the return type of the
 		// expression before we evaluate everything.
-		Expression result = conditionExpression.evaluate(scope);
+		Type result = conditionExpression.evaluate(scope);
 		if (!(result instanceof BooleanExpression))
 			throw new RuntimeException("The condition evaluate to a boolean");
 

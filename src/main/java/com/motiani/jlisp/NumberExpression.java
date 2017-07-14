@@ -13,7 +13,7 @@ final class NumberExpression extends ConstantExpression {
 		return this.value;
 	}
 
-	Expression evaluate(Scope scope) {
+	public Type evaluate(Scope scope) {
 		return this;
 	}
 

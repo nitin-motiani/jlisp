@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 class Scope {
-	private Map<String, Expression> variableMap;
+	private Map<String, Type> variableMap;
 	@Nullable
 	private Scope parentScope;
 
@@ -15,7 +15,7 @@ class Scope {
 		this.variableMap = new HashMap<>();
 	}
 
-	Expression get(String variable) {
+	Type get(String variable) {
 		if (variableMap.containsKey(variable)) {
 			return variableMap.get(variable);
 		}
@@ -27,21 +27,21 @@ class Scope {
 		throw new RuntimeException("Variable " + variable + " is not defined");
 	}
 
-	void create(String variable, Expression expression) {
+	void create(String variable, Type data) {
 		// Since scheme allows happily redefining a variable, we just put the
 		// expression in map,
 		// no need to check if it exists or not.
-		variableMap.put(variable, expression);
+		variableMap.put(variable, data);
 	}
 
-	void modify(String variable, Expression expression) {
+	void modify(String variable, Type data) {
 		if (variableMap.containsKey(variable)) {
-			variableMap.put(variable, expression);
+			variableMap.put(variable, data);
 			return;
 		}
 
 		if (parentScope != null) {
-			parentScope.modify(variable, expression);
+			parentScope.modify(variable, data);
 			return;
 		}
 

@@ -16,7 +16,7 @@ final class BooleanExpression extends ConstantExpression {
 		return String.valueOf(this.value);
 	}
 
-	Expression evaluate(Scope scope) {
+	public Type evaluate(Scope scope) {
 		return this;
 	}
 }
