@@ -192,7 +192,11 @@ be done with it.
 25. Moving to use BigDecimals for Numbers. Else can't do operations on abstract Number class
 
 26. Seems to me our parser will tank on multiple expressions in a row type thing. Example 
-a (+ 1 2). Will handle this later
+a (+ 1 2). Will handle this later. Handled now by failing on parsing. 
+
+27. We are not allowing block level stuff at least for now. That would complicate things a lot more.  
+
+28. Not going to allow redefining of syntactic keywords. 
 
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
@@ -271,5 +275,98 @@ Test Expressions :-
     (test)
     
 44. factorial
-    
-    
+45. (define f (lambda args (+ args)))
+
+ 
+V2 :- 
+1. Seems like Norvig's quote is doing what mit-scheme's quasiquote is doing. 
+I'll probably go with Norvig interpretation. Seems like some weird setting caused that. It's cool. 
+
+2. Surprising thing. Seems like scheme allows redefining even key syntax things like if, quote etc. 
+My v1 doesn't allow that. Maybe I can allow it. I don't like it though so maybe won't. 
+
+3. So current non concrete plan is to have symbol type. And map from that in the scope mappings. 
+May have to have some mapping from string to symbol object as it's supposed to be interned. But we'll see. 
+We can have one pool of symbol objects for such shit. And then we can have symbol objects created for special forms
+too. And then hierarchy can be divided into just types. And then we can have evaluable and callable. And can 
+just have a print pretty type shit. Seems so far that string, booleans, and strings are self evaluating. So won't 
+hurt to have a self evaluating type interface if I go that route. If I do have such hierarchies. Symbol should be a 
+type and not an expresion (evaluable). And function should be callable only. Also the special forms may end up 
+keeping their separate classes by the argument that for things like define, set! etc first argument is not an 
+expression to be evaluated, but a string(in v1)/symbol(in v2). 
+
+The problem with the approach of having special form classes be completely separate is that I won't be able to 
+get rid of duplication in parser. So it's possible that going back to old way of having AtomicExpresion and 
+ListExpression is better. 
+
+4. May do multiple equality operators. In scheme, = is just for numbers. And eq? is ref equality, while equal? is
+value equality.
+
+5. Need to figure out a way to make NIL work. 
+
+6. So symbol interning will require me to have a separate effort to keep a global storage for those (not that it's wrong, 
+in some way it's maintaining a perm space). But in first cut, I can avoid that, and just have a Symbol implement
+hashCode and equals in a way that it only depends on the string within. 
+
+7. The most major thing is that the basic type Any/Data/Object is not evaluable. As procedures are not evaluables. 
+That's fucking important. That brings us to the question about whether we should consider symbol evaluable. 
+If we don't, then we need a whole different type of evaluable for just variable expressions. So far making symbol 
+evaluable certainly seems a lot simpler. Anywhere I need to evaluate things as args to a procedure, evaluating 
+symbol to return an actual data thing makes things a lot simpler. 
+
+8. The thing which makes stuff murky is that if we move to the new model, then everywhere things which are 
+basically list of expressions and shit like that will become list of data. And confusion comes in the sense 
+of what if something needs to be evaluated. But it seems to me, we can't just put a procedure directly in the 
+mid of things in a list. You could only put a reference to that, which is evaluable. 
+And will evaluate to something more meaningful. So procedure without evaluate could work. 
+
+But now that I think even more about it :P Maybe it's totally fine. My current code will mostly remain unchanged. 
+Because in all list things, there has to be an expression, which will always be evalauated. Whether it's define, 
+or set!, or lambda or list. They will have expression to be evaluated. You can't put a callable object there. At best
+you can have a symbol/variable or some other expression whose evaluation gives you a callable. But is that enough?
+ 
+Because my AST evaluation works on recursion of evaluating expressions and returning expressions. Here it could return
+non expression things. How do I handle that? :( 
+I can do data thing and some casting :(
+Or I can have getEvaluable or some such shit for all data types, which probably beats the purpose. 
+and sounds shit to me. 
+
+
+Out of scope :- 
+
+1. Improper lists. 
+2. Symbol interning, at least not for time being. 
+
+Examples :- 
+1. (quote 100) -> 2   Probably ignore. Some weird setting caused this. 
+This caused it : (define (quote a) 2). God knows how this shit works. Basically quote got redefined as a 
+function. 
+2. (quote (quote (+ 1 2)))
+3. (define sym (quote a))
+4. (equal? sym (quote a))
+   (eq? sym (quote a))
+
+5. (define lel "a")
+   (equal? lel "a")
+   (eq? lel "a")
+   
+6. (cons 'x1 '())
+   (cons 'x1 (cons 'x2 '()))
+   
+7. (symbol-hash sym)
+8. (define test (quote (lambda (x) x)))
+   (list? test)
+   (symbol? (car test))
+   (car (cdr test))
+   (list? (car (cdr test)))
+   (symbol? (car (car (cdr (test)))))
+   
+9. (define f (lambda (x) (* x 2)))
+   ((quote f) 2)   
+10. (if (= a 2) 8 10 12)
+
+11. (car (quote (quote abracadabra)))
+12. (quote (quote 1))
+13. (define lel (quote (lambda args (car args))))
+    (symbol? (car (cdr lel)))
+    (symbol? (car (car (cdr (cdr lel)))))
