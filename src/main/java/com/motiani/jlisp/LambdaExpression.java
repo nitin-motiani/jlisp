@@ -7,24 +7,24 @@ import com.motiani.jlisp.UserFunctionExpression.UserFunctionArgType;
 
 final class LambdaExpression extends Expression {
 
-	private List<String> argNames;
+	private List<SymbolExpression> argNames;
 	private UserFunctionArgType userFunctionArgType;
 	private List<Expression> functionBody;
 
-	private LambdaExpression(List<String> argNames,
+	private LambdaExpression(List<SymbolExpression> argNames,
 			UserFunctionArgType userFunctionArgType, List<Expression> body) {
 		this.argNames = argNames;
 		this.userFunctionArgType = userFunctionArgType;
 		this.functionBody = body;
 	}
 
-	static LambdaExpression createWithConstArgs(List<String> argNames,
-			List<Expression> body) {
+	static LambdaExpression createWithConstArgs(
+			List<SymbolExpression> argNames, List<Expression> body) {
 		return new LambdaExpression(argNames,
 				UserFunctionArgType.CONSTANT_ARGS, body);
 	}
 
-	static LambdaExpression createWithVarArgs(String argName,
+	static LambdaExpression createWithVarArgs(SymbolExpression argName,
 			List<Expression> body) {
 		return new LambdaExpression(Collections.singletonList(argName),
 				UserFunctionArgType.VARIABLE_ARGS, body);

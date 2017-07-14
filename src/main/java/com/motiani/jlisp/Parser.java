@@ -118,7 +118,7 @@ class Parser {
 
 		tokens.removeFirst();
 
-		return new DefinitionExpression(symbol, valueExpr);
+		return new DefinitionExpression(new SymbolExpression(symbol), valueExpr);
 	}
 
 	// TODO: Get rid of copied code between definition and assignment
@@ -137,7 +137,7 @@ class Parser {
 
 		tokens.removeFirst();
 
-		return new AssignmentExpression(symbol, valueExpr);
+		return new AssignmentExpression(new SymbolExpression(symbol), valueExpr);
 	}
 
 	private ConditionalExpression parseConditional(LinkedList<String> tokens) {
@@ -216,10 +216,15 @@ class Parser {
 
 		tokens.removeFirst();
 
+		// TODO : This is slightly hacky. After refactoring the list expression
+		// hierarchy, I'll rewrite the parser. This will be revisited at that
+		// time.
+		List<SymbolExpression> argSymbols = args.stream()
+				.map(SymbolExpression::new).collect(Collectors.toList());
 		if (argType == UserFunctionArgType.CONSTANT_ARGS) {
-			return LambdaExpression.createWithConstArgs(args, body);
+			return LambdaExpression.createWithConstArgs(argSymbols, body);
 		} else {
-			return LambdaExpression.createWithVarArgs(args.get(0), body);
+			return LambdaExpression.createWithVarArgs(argSymbols.get(0), body);
 		}
 
 	}

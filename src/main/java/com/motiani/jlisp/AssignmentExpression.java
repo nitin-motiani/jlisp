@@ -2,10 +2,10 @@ package com.motiani.jlisp;
 
 final class AssignmentExpression extends Expression {
 
-	private String variable;
+	private SymbolExpression variable;
 	private Expression expression;
 
-	public AssignmentExpression(String variable, Expression expression) {
+	public AssignmentExpression(SymbolExpression variable, Expression expression) {
 		this.variable = variable;
 		this.expression = expression;
 	}
@@ -17,7 +17,7 @@ final class AssignmentExpression extends Expression {
 	}
 
 	public Type evaluate(Scope scope) {
-		Type previousValue = scope.get(variable);
+		Type previousValue = variable.evaluate(scope);
 		scope.modify(variable, expression.evaluate(scope));
 		return previousValue;
 	}

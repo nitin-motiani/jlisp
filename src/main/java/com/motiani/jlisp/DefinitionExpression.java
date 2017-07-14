@@ -1,10 +1,10 @@
 package com.motiani.jlisp;
 
 final class DefinitionExpression extends Expression {
-	private String variable;
+	private SymbolExpression variable;
 	private Expression expression;
 
-	public DefinitionExpression(String variable, Expression expression) {
+	public DefinitionExpression(SymbolExpression variable, Expression expression) {
 		this.variable = variable;
 		this.expression = expression;
 	}
@@ -17,6 +17,6 @@ final class DefinitionExpression extends Expression {
 
 	public Type evaluate(Scope scope) {
 		scope.create(variable, expression.evaluate(scope));
-		return new SymbolExpression(variable);
+		return variable;
 	}
 }

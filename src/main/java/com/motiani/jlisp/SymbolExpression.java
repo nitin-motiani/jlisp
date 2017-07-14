@@ -8,7 +8,7 @@ final class SymbolExpression extends Expression {
 	}
 
 	public Type evaluate(Scope scope) {
-		return scope.get(symbol);
+		return scope.get(this);
 	}
 
 	// This doesn't make sense right now. Will be revisited when we implement

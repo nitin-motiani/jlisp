@@ -14,13 +14,13 @@ final class UserFunctionExpression extends Function {
 	// This should be a list of expressions, not a ListExpression. We want these
 	// to be evaluated one by one
 	private List<Expression> body;
-	private List<String> argNames;
+	private List<SymbolExpression> argNames;
 	private UserFunctionArgType userFunctionArgType;
 	private Scope parentScope;
 
 	private UserFunctionExpression(List<Expression> body,
-			List<String> argNames, UserFunctionArgType userFunctionArgType,
-			Scope parentScope) {
+			List<SymbolExpression> argNames,
+			UserFunctionArgType userFunctionArgType, Scope parentScope) {
 		this.body = body;
 		this.argNames = argNames;
 		this.userFunctionArgType = userFunctionArgType;
@@ -31,13 +31,13 @@ final class UserFunctionExpression extends Function {
 	// expressions have copied code for some of this stuff. Will possibly
 	// refactor that to make slightly cleaner at some point
 	static UserFunctionExpression createWithConstArgs(List<Expression> body,
-			List<String> argNames, Scope parentScope) {
+			List<SymbolExpression> argNames, Scope parentScope) {
 		return new UserFunctionExpression(body, argNames,
 				UserFunctionArgType.CONSTANT_ARGS, parentScope);
 	}
 
 	static UserFunctionExpression createWithVarArgs(List<Expression> body,
-			String argName, Scope parentScope) {
+			SymbolExpression argName, Scope parentScope) {
 		return new UserFunctionExpression(body,
 				Collections.singletonList(argName),
 				UserFunctionArgType.VARIABLE_ARGS, parentScope);
