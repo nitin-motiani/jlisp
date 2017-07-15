@@ -50,7 +50,8 @@ final class UserFunctionExpression extends Function {
 			for (int i = 0; i < numArgs; i++)
 				evaluationScope.create(argNames.get(i), args.get(i));
 		} else {
-			evaluationScope.create(argNames.get(0), new ListExpression(args));
+			evaluationScope.create(argNames.get(0),
+					ListExpressionFactory.createListExpression(args));
 		}
 
 		return evaluationScope;

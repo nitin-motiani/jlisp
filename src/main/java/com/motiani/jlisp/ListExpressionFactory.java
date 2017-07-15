@@ -9,7 +9,7 @@ class ListExpressionFactory {
 		// Seems cleaner to do this. We don't really need this as items.get(0)
 		// will return null, and that won't be equal to any keyword symbol
 		if (items.size() == 0)
-			return new ListExpression(items);
+			return new ProcedureExpression(items);
 
 		Type symbol = items.get(0);
 
@@ -22,7 +22,7 @@ class ListExpressionFactory {
 		} else if (Keywords.LAMBDA.equals(symbol)) {
 			return new LambdaExpression(items);
 		} else {
-			return new ListExpression(items);
+			return new ProcedureExpression(items);
 		}
 	}
 }

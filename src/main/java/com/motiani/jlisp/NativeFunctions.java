@@ -207,7 +207,7 @@ class NativeFunctions {
 				List<Type> cdrExprs = ((ListExpression) args.get(0)).getItems()
 						.stream().skip(1).collect(Collectors.toList());
 
-				return new ListExpression(cdrExprs);
+				return ListExpressionFactory.createListExpression(cdrExprs);
 			}
 		};
 
@@ -218,7 +218,7 @@ class NativeFunctions {
 
 			@Override
 			public Type call(List<Type> args) {
-				return new ListExpression(args);
+				return ListExpressionFactory.createListExpression(args);
 			}
 		};
 	}
@@ -262,7 +262,8 @@ class NativeFunctions {
 					resultExpressions.add(callable.call(callableArgs));
 				}
 
-				return new ListExpression(resultExpressions);
+				return ListExpressionFactory
+						.createListExpression(resultExpressions);
 			}
 		};
 	}
