@@ -1,15 +1,27 @@
 package com.motiani.jlisp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // Purpose of this class is to create the correct concrete implementation of ListExpression 
 // based on what items there are are in the list
 class ListExpressionFactory {
+
+	// TODO: I am not 100% sure of this approach. But it seemed a clean way to
+	// have one singleton empty list which just returns itself on evaluation.
+	// This is basically the nil of the language
+	private static ListExpression emptyList = new ListExpression(
+			new ArrayList<Type>()) {
+
+		@Override
+		public Type evaluate(Scope scope) {
+			return this;
+		}
+	};
+
 	static ListExpression createListExpression(List<Type> items) {
-		// Seems cleaner to do this. We don't really need this as items.get(0)
-		// will return null, and that won't be equal to any keyword symbol
 		if (items.size() == 0)
-			return new ProcedureExpression(items);
+			return emptyList;
 
 		Type symbol = items.get(0);
 

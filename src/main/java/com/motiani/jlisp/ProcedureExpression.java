@@ -13,12 +13,17 @@ final class ProcedureExpression extends ListExpression {
 	}
 
 	public Type evaluate(Scope scope) {
-		if (items == null || items.size() == 0)
+
+		if (items == null)
 			throw new RuntimeException("Not a valid expression to run");
 
 		// TODO: Assumption is that the items in the list will always be
 		// evaluable if we are evaluating the list. This will need to be changed
 		// if I can think of a counter example.
+
+		// We have a separate static instance for empty list. So for proc
+		// invocation, the list always have at least one item.
+		// If something went wrong, it seems better to throw an NPE here.
 		Type fExp = ((Evaluable) items.get(0)).evaluate(scope);
 
 		if (!(fExp instanceof Callable))

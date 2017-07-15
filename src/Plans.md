@@ -340,6 +340,9 @@ evaluation logic into a class ProcExpression
 
 11. Probably can remove Evaluable and Callable. They seem unnecessary complications at this point. 
 
+12. To handle nil/empty list, the simplest solution seems to be that in procedure evaluation, just return empty 
+list when that is evaluated. I am not a fan of that though. 
+
 Out of scope :- 
 
 1. Improper lists. 
@@ -386,4 +389,6 @@ function.
 16. (lambda (if (= a 2) 8 10) 8)
 17. (define f (lambda (x y) (+ (* 2 x) y)))
     (define g (lambda (x) (f x 2)))
+    
+18. (define fn ())
 
