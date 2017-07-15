@@ -283,7 +283,8 @@ V2 :-
 I'll probably go with Norvig interpretation. Seems like some weird setting caused that. It's cool. 
 
 2. Surprising thing. Seems like scheme allows redefining even key syntax things like if, quote etc. 
-My v1 doesn't allow that. Maybe I can allow it. I don't like it though so maybe won't. 
+My v1 doesn't allow that. Maybe I can allow it. I don't like it though so maybe won't. So far seems like 
+the code is allowing for it, since if etc can be valid symbol. Later I'll fix this. 
 
 3. So current non concrete plan is to have symbol type. And map from that in the scope mappings. 
 May have to have some mapping from string to symbol object as it's supposed to be interned. But we'll see. 
@@ -378,6 +379,7 @@ function.
 13. (define lel (quote (lambda args (car args))))
     (symbol? (car (cdr lel)))
     (symbol? (car (car (cdr (cdr lel)))))
+    (car (cdr (cdr lel)))
     
 14. (list 1 2 +)
 15. (set a 3)

@@ -32,8 +32,8 @@ public class REPL {
 		Scanner sc = new Scanner(System.in);
 		// TODO: For some weird reason this doesn't always work. Will have to
 		// figure out.
-		// When Ctrl + D is hit, hasNextLine returns false. So we end the loop,
-		// and close the scanner
+		// When Ctrl + D is hit, hasNextLine returns false. So we end the
+		// loop, and close the scanner
 		while (sc.hasNextLine()) {
 			try {
 				String input = sc.nextLine();

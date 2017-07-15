@@ -1,6 +1,5 @@
 package com.motiani.jlisp;
 
-// TODO: This class is currently useless till we implement strings
 final class StringExpression extends ConstantExpression {
 	private String value;
 

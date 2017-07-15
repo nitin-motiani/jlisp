@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.NumberUtils;
+import org.apache.commons.lang.StringUtils;
 
 class Parser {
 
@@ -16,14 +19,31 @@ class Parser {
 	private final List<String> reserved = Arrays.asList("(", ")");
 
 	// The reason for return type linked list is that we can easily peek top
-	// elements and pop them from a linked list
+	// elements and pop them from a linked list. The reason behind returning
+	// LinkedList instead of List is that the contract is clear that a linked
+	// list will be returned and callers know they pop element in O(1)
 	private LinkedList<String> tokanize(String exp) {
 		if (exp == null)
 			throw new IllegalArgumentException("Can't parse null expression");
-		String expModified = exp.replace("(", " ( ").replace(")", " ) ");
-		return Arrays.stream(expModified.split(" "))
-				// This is a shit hack
-				.filter(s -> !s.isEmpty())
+
+		LinkedList<String> tokens = new LinkedList<String>();
+		// What this complicated regex does
+		// Either match an opening or closing paran
+		// Or match string which starts with anything other than double quote or
+		// opening/closing parans,
+		// and after that can have any number of non space characters apart from
+		// parans
+		// Or match a string which starts with a double quote and can have any
+		// other characters after that and then ends with a closing double quote
+		Matcher m = Pattern.compile(
+				"([\\(\\)]|[^\"\\(\\)][\\S&&[^\\(\\)]]*|\".+?\")\\s*").matcher(
+				exp);
+		while (m.find())
+			tokens.add(m.group(1).trim());
+
+		// I was hoping to get rid of this, but it seems empty strings still
+		// slip through so getting rid of those
+		return tokens.stream().filter(StringUtils::isNotEmpty)
 				.collect(Collectors.toCollection(LinkedList::new));
 	}
 
@@ -49,6 +69,10 @@ class Parser {
 				.equals("false"));
 	}
 
+	private boolean isValidString(String token) {
+		return (token.startsWith("\"") && token.endsWith("\""));
+	}
+
 	private boolean isValidSymbol(String token) {
 		return (!reserved.contains(token.toLowerCase()));
 	}
@@ -59,6 +83,9 @@ class Parser {
 
 		if (isValidBoolean(token))
 			return parseBoolean(token);
+
+		if (isValidString(token))
+			return parseString(token);
 
 		if (isValidSymbol(token))
 			return parseSymbol(token);
@@ -83,6 +110,10 @@ class Parser {
 
 	private BooleanExpression parseBoolean(String token) {
 		return new BooleanExpression(Boolean.parseBoolean(token));
+	}
+
+	private StringExpression parseString(String token) {
+		return new StringExpression(token);
 	}
 
 	private SymbolExpression parseSymbol(String token) {
