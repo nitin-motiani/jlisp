@@ -5,15 +5,15 @@ import java.util.stream.Collectors;
 
 final class LambdaExpression extends ListExpression {
 
-	LambdaExpression(List<Type> items) {
+	LambdaExpression(List<Data> items) {
 		super(items);
 	}
 
-	Type evaluate(Scope scope) {
+	Data evaluate(Scope scope) {
 		assert (items.size() >= 3);
 		assert (Keywords.LAMBDA.equals(items.get(0)));
 
-		Type args = items.get(1);
+		Data args = items.get(1);
 		List<Expression> functionBody = items.stream().skip(2)
 				.map(item -> (Expression) item).collect(Collectors.toList());
 

@@ -100,7 +100,7 @@ class Parser {
 			throw new IllegalArgumentException(
 					"The list expression should start with (");
 
-		List<Type> items = parseList(tokens);
+		List<Data> items = parseList(tokens);
 		return ListExpressionFactory.createListExpression(items);
 	}
 
@@ -121,8 +121,8 @@ class Parser {
 		return new SymbolExpression(token);
 	}
 
-	private List<Type> parseList(LinkedList<String> tokens) {
-		List<Type> expressions = new ArrayList<>();
+	private List<Data> parseList(LinkedList<String> tokens) {
+		List<Data> expressions = new ArrayList<>();
 		tokens.removeFirst();
 		while (tokens.size() > 0 && !tokens.get(0).equals(")")) {
 			expressions.add(parse(tokens));

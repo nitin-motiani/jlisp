@@ -343,7 +343,7 @@ evaluation logic into a class ProcExpression
 12. To handle nil/empty list, the simplest solution seems to be that in procedure evaluation, just return empty 
 list when that is evaluated. I am not a fan of that though. 
 
-13. Should try to move type specific native functions to the classes specific to that. 
+13. Should try to move type specific native functions to the classes specific to that. Probably in V3
 
 Out of scope :- 
 

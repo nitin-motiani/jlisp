@@ -4,11 +4,11 @@ import java.util.List;
 
 final class QuoteExpression extends ListExpression {
 
-	QuoteExpression(List<Type> items) {
+	QuoteExpression(List<Data> items) {
 		super(items);
 	}
 
-	Type evaluate(Scope scope) {
+	Data evaluate(Scope scope) {
 		assert (items.size() == 2);
 		assert (Keywords.QUOTE.equals(items.get(0)));
 

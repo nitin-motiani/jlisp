@@ -2,7 +2,7 @@ package com.motiani.jlisp;
 
 import java.util.List;
 
-abstract class Function extends Type {
+abstract class Function extends Data {
 	String getDisplayValue() {
 		return "function";
 	}
@@ -15,5 +15,5 @@ abstract class Function extends Type {
 	// was to have native functions with fixed number of args, but can't
 	// implement varargs function with const number arguments function, it
 	// seems.
-	abstract Type call(List<Type> args);
+	abstract Data call(List<Data> args);
 }

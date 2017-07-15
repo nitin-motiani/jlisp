@@ -40,7 +40,7 @@ final class UserFunctionExpression extends Function {
 				UserFunctionArgType.VARIABLE_ARGS, parentScope);
 	}
 
-	private Scope createScope(List<Type> args) {
+	private Scope createScope(List<Data> args) {
 		Scope evaluationScope = new Scope(parentScope);
 		if (userFunctionArgType.equals(UserFunctionArgType.CONSTANT_ARGS)) {
 			if (args.size() != this.argNames.size())
@@ -58,9 +58,9 @@ final class UserFunctionExpression extends Function {
 	}
 
 	@Override
-	Type call(List<Type> args) {
+	Data call(List<Data> args) {
 		Scope scope = createScope(args);
-		Type solution = null;
+		Data solution = null;
 		for (Expression expr : body) {
 			solution = expr.evaluate(scope);
 		}

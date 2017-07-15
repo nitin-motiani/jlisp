@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 //but that's what I am keeping for time being. 
 final class ProcedureExpression extends ListExpression {
 
-	ProcedureExpression(List<Type> items) {
+	ProcedureExpression(List<Data> items) {
 		super(items);
 	}
 
-	Type evaluate(Scope scope) {
+	Data evaluate(Scope scope) {
 
 		if (items == null)
 			throw new RuntimeException("Not a valid expression to run");
@@ -24,12 +24,12 @@ final class ProcedureExpression extends ListExpression {
 		// We have a separate static instance for empty list. So for proc
 		// invocation, the list always have at least one item.
 		// If something went wrong, it seems better to throw an NPE here.
-		Type fExp = ((Expression) items.get(0)).evaluate(scope);
+		Data fExp = ((Expression) items.get(0)).evaluate(scope);
 
 		if (!(fExp instanceof Function))
 			throw new RuntimeException("Not a callable.");
 
-		List<Type> args = items.stream().skip(1)
+		List<Data> args = items.stream().skip(1)
 				.map(expression -> ((Expression) expression).evaluate(scope))
 				.collect(Collectors.toList());
 

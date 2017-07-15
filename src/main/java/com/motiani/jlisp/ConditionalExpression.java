@@ -4,11 +4,11 @@ import java.util.List;
 
 final class ConditionalExpression extends ListExpression {
 
-	ConditionalExpression(List<Type> items) {
+	ConditionalExpression(List<Data> items) {
 		super(items);
 	}
 
-	Type evaluate(Scope scope) {
+	Data evaluate(Scope scope) {
 		assert (items.size() == 3 || items.size() == 4);
 		assert (Keywords.IF.equals(items.get(0)));
 
@@ -19,7 +19,7 @@ final class ConditionalExpression extends ListExpression {
 
 		// TODO: Are there better ways to figure out the return type of the
 		// expression before we evaluate everything.
-		Type result = conditionExpression.evaluate(scope);
+		Data result = conditionExpression.evaluate(scope);
 		if (!(result instanceof BooleanExpression))
 			throw new RuntimeException("The condition evaluate to a boolean");
 

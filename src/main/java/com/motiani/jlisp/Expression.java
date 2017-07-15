@@ -1,5 +1,5 @@
 package com.motiani.jlisp;
 
-abstract class Expression extends Type {
-	abstract Type evaluate(Scope scope);
+abstract class Expression extends Data {
+	abstract Data evaluate(Scope scope);
 }

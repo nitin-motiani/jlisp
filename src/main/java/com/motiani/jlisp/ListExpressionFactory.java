@@ -11,19 +11,19 @@ class ListExpressionFactory {
 	// have one singleton empty list which just returns itself on evaluation.
 	// This is basically the nil of the language
 	private static ListExpression emptyList = new ListExpression(
-			new ArrayList<Type>()) {
+			new ArrayList<Data>()) {
 
 		@Override
-		public Type evaluate(Scope scope) {
+		public Data evaluate(Scope scope) {
 			return this;
 		}
 	};
 
-	static ListExpression createListExpression(List<Type> items) {
+	static ListExpression createListExpression(List<Data> items) {
 		if (items.size() == 0)
 			return emptyList;
 
-		Type symbol = items.get(0);
+		Data symbol = items.get(0);
 
 		if (Keywords.IF.equals(symbol)) {
 			return new ConditionalExpression(items);

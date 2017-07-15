@@ -4,11 +4,11 @@ import java.util.List;
 
 final class DefinitionExpression extends ListExpression {
 
-	DefinitionExpression(List<Type> items) {
+	DefinitionExpression(List<Data> items) {
 		super(items);
 	}
 
-	Type evaluate(Scope scope) {
+	Data evaluate(Scope scope) {
 		assert (items.size() == 3);
 		assert (Keywords.DEFINE.equals(items.get(0)));
 
