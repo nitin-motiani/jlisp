@@ -2,7 +2,7 @@ Author : Nitin Motiani
 
 This file describes the scope of the problem and the design decisions. There will be changes to this file as 
 the ideas evolve and design becomes more concrete or when there are changes. The file is mainly there 
-for me to help keep track of my thoughts rather in a simple manner. 
+for me to help keep track of my thoughts in a simple manner. 
 
 
 Scope :- A subset of scheme
@@ -331,6 +331,13 @@ I can do data thing and some casting :(
 Or I can have getEvaluable or some such shit for all data types, which probably beats the purpose. 
 and sounds shit to me. 
 
+9. Assumption is that the items in the list will always be evaluable if we are evaluating the list. 
+This will need to be changed if I can think of a counter example.
+
+10. The ListExpression class is no longer final. A further refactor can make it abstract and remove the 
+evaluation logic into a class ProcExpression
+
+11. Probably can remove Evaluable and Callable. They seem unnecessary complications at this point. 
 
 Out of scope :- 
 

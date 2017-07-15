@@ -27,9 +27,6 @@ final class UserFunctionExpression extends Function {
 		this.parentScope = parentScope;
 	}
 
-	// TODO: Don't particularly like the fact that both lambda and user function
-	// expressions have copied code for some of this stuff. Will possibly
-	// refactor that to make slightly cleaner at some point
 	static UserFunctionExpression createWithConstArgs(List<Expression> body,
 			List<SymbolExpression> argNames, Scope parentScope) {
 		return new UserFunctionExpression(body, argNames,

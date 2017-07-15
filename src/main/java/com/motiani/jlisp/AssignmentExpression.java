@@ -1,22 +1,19 @@
 package com.motiani.jlisp;
 
-final class AssignmentExpression extends Expression {
+import java.util.List;
 
-	private SymbolExpression variable;
-	private Expression expression;
+final class AssignmentExpression extends ListExpression {
 
-	public AssignmentExpression(SymbolExpression variable, Expression expression) {
-		this.variable = variable;
-		this.expression = expression;
-	}
-
-	// This doesn't make sense right now. Will be revisited when we implement
-	// quote
-	String getDisplayValue() {
-		return "assignment";
+	AssignmentExpression(List<Type> items) {
+		super(items);
 	}
 
 	public Type evaluate(Scope scope) {
+		assert (items.size() == 3);
+		assert (Keywords.ASSIGN.equals(items.get(0)));
+
+		SymbolExpression variable = (SymbolExpression) (items.get(1));
+		Expression expression = (Expression) (items.get(2));
 		Type previousValue = variable.evaluate(scope);
 		scope.modify(variable, expression.evaluate(scope));
 		return previousValue;

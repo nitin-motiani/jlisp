@@ -24,7 +24,8 @@ class Scope {
 			return parentScope.get(variable);
 		}
 
-		throw new RuntimeException("Variable " + variable + " is not defined");
+		throw new RuntimeException("Variable " + variable.getDisplayValue()
+				+ " is not defined");
 	}
 
 	void create(SymbolExpression variable, Type data) {
@@ -45,6 +46,7 @@ class Scope {
 			return;
 		}
 
-		throw new RuntimeException("Variable " + variable + " not found.");
+		throw new RuntimeException("Variable " + variable.getDisplayValue()
+				+ " not found.");
 	}
 }

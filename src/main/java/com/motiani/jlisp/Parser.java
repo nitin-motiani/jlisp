@@ -3,7 +3,6 @@ package com.motiani.jlisp;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,12 +10,10 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.NumberUtils;
 
-import com.motiani.jlisp.UserFunctionExpression.UserFunctionArgType;
-
 class Parser {
 
-	private final List<String> reserved = Arrays.asList("if", "define", "set!",
-			"(", ")", "lambda");
+	// TODO : See if we can get rid of this
+	private final List<String> reserved = Arrays.asList("(", ")");
 
 	// The reason for return type linked list is that we can easily peek top
 	// elements and pop them from a linked list
@@ -52,7 +49,7 @@ class Parser {
 				.equals("false"));
 	}
 
-	private boolean isValidVariable(String token) {
+	private boolean isValidSymbol(String token) {
 		return (!reserved.contains(token.toLowerCase()));
 	}
 
@@ -63,8 +60,8 @@ class Parser {
 		if (isValidBoolean(token))
 			return parseBoolean(token);
 
-		if (isValidVariable(token))
-			return parseVariable(token);
+		if (isValidSymbol(token))
+			return parseSymbol(token);
 
 		throw new IllegalArgumentException("Invalid atomic token " + token);
 	}
@@ -76,18 +73,8 @@ class Parser {
 			throw new IllegalArgumentException(
 					"The list expression should start with (");
 
-		switch (tokens.get(1).toLowerCase()) {
-		case "if":
-			return parseConditional(tokens);
-		case "define":
-			return parseDefinition(tokens);
-		case "set!":
-			return parseAssignment(tokens);
-		case "lambda":
-			return parseLambda(tokens);
-		default:
-			return parseList(tokens);
-		}
+		List<Type> items = parseList(tokens);
+		return ListExpressionFactory.createListExpression(items);
 	}
 
 	private NumberExpression parseNumber(String token) {
@@ -98,71 +85,14 @@ class Parser {
 		return new BooleanExpression(Boolean.parseBoolean(token));
 	}
 
-	private SymbolExpression parseVariable(String token) {
-		// TODO: Check for valid variable
+	private SymbolExpression parseSymbol(String token) {
+		// TODO: Check for valid symbol i.e. based on allowed characters etc.
 		return new SymbolExpression(token);
 	}
 
-	private DefinitionExpression parseDefinition(LinkedList<String> tokens) {
-		tokens.removeFirst();
-		tokens.removeFirst();
-		String symbol = tokens.get(0);
-		if (!isValidVariable(symbol))
-			throw new RuntimeException("Invalid variable name " + symbol);
-
-		tokens.removeFirst();
-
-		Expression valueExpr = parse(tokens);
-		if (!tokens.get(0).equals(")"))
-			throw new IllegalArgumentException("Parantheses mismatch");
-
-		tokens.removeFirst();
-
-		return new DefinitionExpression(new SymbolExpression(symbol), valueExpr);
-	}
-
-	// TODO: Get rid of copied code between definition and assignment
-	private AssignmentExpression parseAssignment(LinkedList<String> tokens) {
-		tokens.removeFirst();
-		tokens.removeFirst();
-		String symbol = tokens.get(0);
-		if (!isValidVariable(symbol))
-			throw new RuntimeException("Invalid variable name " + symbol);
-
-		tokens.removeFirst();
-
-		Expression valueExpr = parse(tokens);
-		if (!tokens.get(0).equals(")"))
-			throw new IllegalArgumentException("Parantheses mismatch");
-
-		tokens.removeFirst();
-
-		return new AssignmentExpression(new SymbolExpression(symbol), valueExpr);
-	}
-
-	private ConditionalExpression parseConditional(LinkedList<String> tokens) {
-		tokens.removeFirst();
-		tokens.removeFirst();
-
-		Expression condition = parse(tokens);
-		Expression ifExpr = parse(tokens);
-		Expression elseExpr = parse(tokens);
-
-		if (!tokens.get(0).equals(")"))
-			throw new IllegalArgumentException("Parantheses mismatch");
-
-		tokens.removeFirst();
-
-		return new ConditionalExpression(condition, ifExpr, elseExpr);
-	}
-
-	private ListExpression parseList(LinkedList<String> tokens) {
-		tokens.removeFirst();
-		// Only case where I shouldn't have repeated this twice, and I did.
-		// Really need to fix the parser
-		// tokens.removeFirst();
-
+	private List<Type> parseList(LinkedList<String> tokens) {
 		List<Type> expressions = new ArrayList<>();
+		tokens.removeFirst();
 		while (tokens.size() > 0 && !tokens.get(0).equals(")")) {
 			expressions.add(parse(tokens));
 		}
@@ -172,60 +102,7 @@ class Parser {
 
 		tokens.removeFirst();
 
-		return new ListExpression(expressions);
-	}
-
-	private LambdaExpression parseLambda(LinkedList<String> tokens) {
-		// TODO: The repetition of these two lines everywhere is pretty bad.
-		// I need to think and restructure code to handle these
-		tokens.removeFirst();
-		tokens.removeFirst();
-
-		UserFunctionArgType argType;
-		List<String> args;
-		// TODO: At this point, there is similar redundant code in three places.
-		// Need to clean this in the refactor
-		if (tokens.get(0).equals("(")) {
-			argType = UserFunctionArgType.CONSTANT_ARGS;
-			args = new ArrayList<>();
-			tokens.removeFirst();
-			while (tokens.size() > 0 && !tokens.get(0).equals(")")) {
-				args.add(tokens.removeFirst());
-			}
-
-			if (tokens.size() == 0)
-				throw new IllegalArgumentException("Parantheses mismatch");
-
-			// Remove the closing paran of args name list
-			tokens.removeFirst();
-		} else {
-			argType = UserFunctionArgType.VARIABLE_ARGS;
-			args = Collections.singletonList(tokens.removeFirst());
-		}
-
-		List<Expression> body = new ArrayList<>();
-
-		// TODO: Again very much repeatation of the code from list expression.
-		// Need to restructure.
-		while (tokens.size() > 0 && !tokens.get(0).equals(")")) {
-			body.add(parse(tokens));
-		}
-
-		if (tokens.size() == 0)
-			throw new IllegalArgumentException("Parantheses mismatch");
-
-		tokens.removeFirst();
-
-		// TODO : This is slightly hacky. After refactoring the list expression
-		// hierarchy, I'll rewrite the parser. This will be revisited at that
-		// time.
-		List<SymbolExpression> argSymbols = args.stream()
-				.map(SymbolExpression::new).collect(Collectors.toList());
-		if (argType == UserFunctionArgType.CONSTANT_ARGS) {
-			return LambdaExpression.createWithConstArgs(argSymbols, body);
-		} else {
-			return LambdaExpression.createWithVarArgs(argSymbols.get(0), body);
-		}
+		return expressions;
 
 	}
 
