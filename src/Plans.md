@@ -352,7 +352,8 @@ function.
 3. (define sym (quote a))
 4. (equal? sym (quote a))
    (eq? sym (quote a))
-
+   sym
+   
 5. (define lel "a")
    (equal? lel "a")
    (eq? lel "a")

@@ -21,6 +21,8 @@ class ListExpressionFactory {
 			return new AssignmentExpression(items);
 		} else if (Keywords.LAMBDA.equals(symbol)) {
 			return new LambdaExpression(items);
+		} else if (Keywords.QUOTE.equals(symbol)) {
+			return new QuoteExpression(items);
 		} else {
 			return new ProcedureExpression(items);
 		}
