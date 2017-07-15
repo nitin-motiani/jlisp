@@ -58,7 +58,7 @@ final class UserFunctionExpression extends Function {
 	}
 
 	@Override
-	public Type call(List<Type> args) {
+	Type call(List<Type> args) {
 		Scope scope = createScope(args);
 		Type solution = null;
 		for (Expression expr : body) {

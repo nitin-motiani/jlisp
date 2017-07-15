@@ -8,7 +8,7 @@ final class QuoteExpression extends ListExpression {
 		super(items);
 	}
 
-	public Type evaluate(Scope scope) {
+	Type evaluate(Scope scope) {
 		assert (items.size() == 2);
 		assert (Keywords.QUOTE.equals(items.get(0)));
 

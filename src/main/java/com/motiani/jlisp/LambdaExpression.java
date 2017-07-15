@@ -9,7 +9,7 @@ final class LambdaExpression extends ListExpression {
 		super(items);
 	}
 
-	public Type evaluate(Scope scope) {
+	Type evaluate(Scope scope) {
 		assert (items.size() >= 3);
 		assert (Keywords.LAMBDA.equals(items.get(0)));
 

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 // TODO: Does it make sense to implement these functions in their respective classes and only have wrappers here? 
@@ -14,7 +15,7 @@ class NativeFunctions {
 	static Function addition() {
 		return new Function() {
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				BigDecimal sum = args
 						.stream()
 						.map(arg -> {
@@ -33,7 +34,7 @@ class NativeFunctions {
 	static Function subtraction() {
 		return new Function() {
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				if (args.size() == 0)
 					throw new IllegalArgumentException(
 							"At least one argument is required for -");
@@ -70,7 +71,7 @@ class NativeFunctions {
 	static Function mutliplication() {
 		return new Function() {
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				BigDecimal product = args
 						.stream()
 						.map(arg -> {
@@ -90,7 +91,7 @@ class NativeFunctions {
 		return new Function() {
 
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				if (args.size() == 0)
 					throw new IllegalArgumentException(
 							"At least one argument is required for -");
@@ -130,7 +131,7 @@ class NativeFunctions {
 	static Function abs() {
 		return new Function() {
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				if (args.size() != 1) {
 					throw new IllegalArgumentException(
 							"abs can take exactly one argument");
@@ -151,7 +152,7 @@ class NativeFunctions {
 	static Function numberEquality() {
 		return new Function() {
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				Boolean result = args.isEmpty()
 						|| args.stream()
 								.map(expression -> {
@@ -174,7 +175,7 @@ class NativeFunctions {
 		return new Function() {
 
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				if (args.size() != 1) {
 					throw new IllegalArgumentException(
 							"car can take exactly one argument");
@@ -194,7 +195,7 @@ class NativeFunctions {
 		return new Function() {
 
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				if (args.size() != 1) {
 					throw new IllegalArgumentException(
 							"cdr can take exactly one argument");
@@ -217,7 +218,7 @@ class NativeFunctions {
 		return new Function() {
 
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				return ListExpressionFactory.createListExpression(args);
 			}
 		};
@@ -227,7 +228,7 @@ class NativeFunctions {
 		return new Function() {
 
 			@Override
-			public Type call(List<Type> args) {
+			Type call(List<Type> args) {
 				if (args.size() < 2)
 					throw new IllegalArgumentException(
 							"map needs at least 2 arguments");
@@ -248,7 +249,7 @@ class NativeFunctions {
 							return ((ListExpression) arg).getItems().size();
 						}).min(Integer::compare).get();
 
-				Callable callable = (Callable) args.get(0);
+				Function callable = (Function) args.get(0);
 				int numArgs = args.size() - 1;
 				List<Type> resultExpressions = new ArrayList<>(resultSize);
 				for (int i = 0; i < resultSize; i++) {

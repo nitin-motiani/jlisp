@@ -8,7 +8,7 @@ final class AssignmentExpression extends ListExpression {
 		super(items);
 	}
 
-	public Type evaluate(Scope scope) {
+	Type evaluate(Scope scope) {
 		assert (items.size() == 3);
 		assert (Keywords.ASSIGN.equals(items.get(0)));
 

@@ -7,7 +7,7 @@ final class SymbolExpression extends Expression {
 		this.symbol = symbol;
 	}
 
-	public Type evaluate(Scope scope) {
+	Type evaluate(Scope scope) {
 		return scope.get(this);
 	}
 

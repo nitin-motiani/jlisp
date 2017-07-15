@@ -8,7 +8,7 @@ final class ConditionalExpression extends ListExpression {
 		super(items);
 	}
 
-	public Type evaluate(Scope scope) {
+	Type evaluate(Scope scope) {
 		assert (items.size() == 3 || items.size() == 4);
 		assert (Keywords.IF.equals(items.get(0)));
 

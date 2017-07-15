@@ -12,7 +12,7 @@ final class ProcedureExpression extends ListExpression {
 		super(items);
 	}
 
-	public Type evaluate(Scope scope) {
+	Type evaluate(Scope scope) {
 
 		if (items == null)
 			throw new RuntimeException("Not a valid expression to run");
@@ -24,16 +24,16 @@ final class ProcedureExpression extends ListExpression {
 		// We have a separate static instance for empty list. So for proc
 		// invocation, the list always have at least one item.
 		// If something went wrong, it seems better to throw an NPE here.
-		Type fExp = ((Evaluable) items.get(0)).evaluate(scope);
+		Type fExp = ((Expression) items.get(0)).evaluate(scope);
 
-		if (!(fExp instanceof Callable))
+		if (!(fExp instanceof Function))
 			throw new RuntimeException("Not a callable.");
 
 		List<Type> args = items.stream().skip(1)
 				.map(expression -> ((Expression) expression).evaluate(scope))
 				.collect(Collectors.toList());
 
-		return ((Callable) fExp).call(args);
+		return ((Function) fExp).call(args);
 
 	}
 

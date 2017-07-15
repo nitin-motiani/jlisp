@@ -8,7 +8,7 @@ final class DefinitionExpression extends ListExpression {
 		super(items);
 	}
 
-	public Type evaluate(Scope scope) {
+	Type evaluate(Scope scope) {
 		assert (items.size() == 3);
 		assert (Keywords.DEFINE.equals(items.get(0)));
 
