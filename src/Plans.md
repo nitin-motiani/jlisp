@@ -370,3 +370,9 @@ function.
 13. (define lel (quote (lambda args (car args))))
     (symbol? (car (cdr lel)))
     (symbol? (car (car (cdr (cdr lel)))))
+    
+14. (list 1 2 +)
+15. (set a 3)
+16. (lambda (if (= a 2) 8 10) 8)
+17. (define f (lambda (x y) (+ (* 2 x) y)))
+    (define g (lambda (x) (f x 2)))
