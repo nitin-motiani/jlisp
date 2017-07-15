@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 class NativeFunctions {
 	static int PRECISION = 6;
 
-	static FunctionExpression addition() {
-		return new FunctionExpression() {
+	static Function addition() {
+		return new Function() {
 			@Override
-			public Expression call(List<Expression> args) {
+			public Type call(List<Type> args) {
 				BigDecimal sum = args
 						.stream()
 						.map(arg -> {
@@ -30,10 +30,10 @@ class NativeFunctions {
 		};
 	}
 
-	static FunctionExpression subtraction() {
-		return new FunctionExpression() {
+	static Function subtraction() {
+		return new Function() {
 			@Override
-			public Expression call(List<Expression> args) {
+			public Type call(List<Type> args) {
 				if (args.size() == 0)
 					throw new IllegalArgumentException(
 							"At least one argument is required for -");
@@ -67,10 +67,10 @@ class NativeFunctions {
 		};
 	}
 
-	static FunctionExpression mutliplication() {
-		return new FunctionExpression() {
+	static Function mutliplication() {
+		return new Function() {
 			@Override
-			public Expression call(List<Expression> args) {
+			public Type call(List<Type> args) {
 				BigDecimal product = args
 						.stream()
 						.map(arg -> {
@@ -86,11 +86,11 @@ class NativeFunctions {
 		};
 	}
 
-	static FunctionExpression division() {
-		return new FunctionExpression() {
+	static Function division() {
+		return new Function() {
 
 			@Override
-			public Expression call(List<Expression> args) {
+			public Type call(List<Type> args) {
 				if (args.size() == 0)
 					throw new IllegalArgumentException(
 							"At least one argument is required for -");
@@ -127,10 +127,10 @@ class NativeFunctions {
 		};
 	}
 
-	static FunctionExpression abs() {
-		return new FunctionExpression() {
+	static Function abs() {
+		return new Function() {
 			@Override
-			public Expression call(List<Expression> args) {
+			public Type call(List<Type> args) {
 				if (args.size() != 1) {
 					throw new IllegalArgumentException(
 							"abs can take exactly one argument");
@@ -148,10 +148,10 @@ class NativeFunctions {
 		};
 	}
 
-	static FunctionExpression numberEquality() {
-		return new FunctionExpression() {
+	static Function numberEquality() {
+		return new Function() {
 			@Override
-			public Expression call(List<Expression> args) {
+			public Type call(List<Type> args) {
 				Boolean result = args.isEmpty()
 						|| args.stream()
 								.map(expression -> {
@@ -170,11 +170,11 @@ class NativeFunctions {
 		};
 	}
 
-	static FunctionExpression car() {
-		return new FunctionExpression() {
+	static Function car() {
+		return new Function() {
 
 			@Override
-			public Expression call(List<Expression> args) {
+			public Type call(List<Type> args) {
 				if (args.size() != 1) {
 					throw new IllegalArgumentException(
 							"car can take exactly one argument");
@@ -184,17 +184,17 @@ class NativeFunctions {
 					throw new IllegalArgumentException(
 							"car can take only list argument");
 
-				return ((ListExpression) args.get(0)).getExpressions().get(0);
+				return ((ListExpression) args.get(0)).getItems().get(0);
 			}
 		};
 
 	}
 
-	static FunctionExpression cdr() {
-		return new FunctionExpression() {
+	static Function cdr() {
+		return new Function() {
 
 			@Override
-			public Expression call(List<Expression> args) {
+			public Type call(List<Type> args) {
 				if (args.size() != 1) {
 					throw new IllegalArgumentException(
 							"cdr can take exactly one argument");
@@ -204,31 +204,30 @@ class NativeFunctions {
 					throw new IllegalArgumentException(
 							"cdr can take only list argument");
 
-				List<Expression> cdrExprs = ((ListExpression) args.get(0))
-						.getExpressions().stream().skip(1)
-						.collect(Collectors.toList());
+				List<Type> cdrExprs = ((ListExpression) args.get(0)).getItems()
+						.stream().skip(1).collect(Collectors.toList());
 
-				return new ListExpression(cdrExprs);
+				return ListExpressionFactory.createListExpression(cdrExprs);
 			}
 		};
 
 	}
 
-	static FunctionExpression list() {
-		return new FunctionExpression() {
+	static Function list() {
+		return new Function() {
 
 			@Override
-			public Expression call(List<Expression> args) {
-				return new ListExpression(args);
+			public Type call(List<Type> args) {
+				return ListExpressionFactory.createListExpression(args);
 			}
 		};
 	}
 
-	static FunctionExpression map() {
-		return new FunctionExpression() {
+	static Function map() {
+		return new Function() {
 
 			@Override
-			public Expression call(List<Expression> args) {
+			public Type call(List<Type> args) {
 				if (args.size() < 2)
 					throw new IllegalArgumentException(
 							"map needs at least 2 arguments");
@@ -246,25 +245,25 @@ class NativeFunctions {
 												+ " for map. Should be a list");
 							}
 
-							return ((ListExpression) arg).getExpressions()
-									.size();
+							return ((ListExpression) arg).getItems().size();
 						}).min(Integer::compare).get();
 
 				Callable callable = (Callable) args.get(0);
 				int numArgs = args.size() - 1;
-				List<Expression> resultExpressions = new ArrayList<>(resultSize);
+				List<Type> resultExpressions = new ArrayList<>(resultSize);
 				for (int i = 0; i < resultSize; i++) {
-					List<Expression> callableArgs = new ArrayList<>(numArgs);
+					List<Type> callableArgs = new ArrayList<>(numArgs);
 					// Start with 1 as first arg is the callable
 					for (int j = 1; j <= numArgs; j++) {
 						callableArgs.add(((ListExpression) args.get(j))
-								.getExpressions().get(i));
+								.getItems().get(i));
 					}
 
 					resultExpressions.add(callable.call(callableArgs));
 				}
 
-				return new ListExpression(resultExpressions);
+				return ListExpressionFactory
+						.createListExpression(resultExpressions);
 			}
 		};
 	}

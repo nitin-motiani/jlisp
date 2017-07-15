@@ -2,7 +2,7 @@ Author : Nitin Motiani
 
 This file describes the scope of the problem and the design decisions. There will be changes to this file as 
 the ideas evolve and design becomes more concrete or when there are changes. The file is mainly there 
-for me to help keep track of my thoughts rather in a simple manner. 
+for me to help keep track of my thoughts in a simple manner. 
 
 
 Scope :- A subset of scheme
@@ -292,7 +292,7 @@ too. And then hierarchy can be divided into just types. And then we can have eva
 just have a print pretty type shit. Seems so far that string, booleans, and strings are self evaluating. So won't 
 hurt to have a self evaluating type interface if I go that route. If I do have such hierarchies. Symbol should be a 
 type and not an expresion (evaluable). And function should be callable only. Also the special forms may end up 
-keeping their separate classes by the argument that for things like define, set! etc first argument is not an 
+keeping their separate class	es by the argument that for things like define, set! etc first argument is not an 
 expression to be evaluated, but a string(in v1)/symbol(in v2). 
 
 The problem with the approach of having special form classes be completely separate is that I won't be able to 
@@ -331,6 +331,13 @@ I can do data thing and some casting :(
 Or I can have getEvaluable or some such shit for all data types, which probably beats the purpose. 
 and sounds shit to me. 
 
+9. Assumption is that the items in the list will always be evaluable if we are evaluating the list. 
+This will need to be changed if I can think of a counter example.
+
+10. The ListExpression class is no longer final. A further refactor can make it abstract and remove the 
+evaluation logic into a class ProcExpression
+
+11. Probably can remove Evaluable and Callable. They seem unnecessary complications at this point. 
 
 Out of scope :- 
 
@@ -376,3 +383,4 @@ function.
 16. (lambda (if (= a 2) 8 10) 8)
 17. (define f (lambda (x y) (+ (* 2 x) y)))
     (define g (lambda (x) (f x 2)))
+

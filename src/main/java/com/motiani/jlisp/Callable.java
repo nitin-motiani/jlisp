@@ -2,9 +2,8 @@ package com.motiani.jlisp;
 
 import java.util.List;
 
-// My current plan is to have a callable interface to provide expressions
-// which can be called. Basically functions. It was this or have a separate level of hierarchy call function 
-// expression. I went for this. At least for time being. 
+// My current plan is to have a callable interface to provide types
+// which can be called. Basically functions. 
 interface Callable {
 	// Initially plan was to use varargs here to be able to just pass in
 	// whatever args are required, without having to worry about list creation.
@@ -14,5 +13,5 @@ interface Callable {
 	// was to have native functions with fixed number of args, but can't
 	// implement varargs function with const number arguments function, it
 	// seems.
-	Expression call(List<Expression> args);
+	Type call(List<Type> args);
 }

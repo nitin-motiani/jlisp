@@ -12,11 +12,8 @@ final class StringExpression extends ConstantExpression {
 		return value;
 	}
 
-	String getPrintValue() {
+	String getDisplayValue() {
 		return value;
 	}
 
-	Expression evaluate(Scope scope) {
-		return this;
-	}
 }

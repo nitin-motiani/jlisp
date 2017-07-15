@@ -9,16 +9,18 @@ import java.util.Scanner;
 public class REPL {
 	private static Scope createGlobalScope() {
 		Scope scope = new Scope(null);
-		scope.create("+", NativeFunctions.addition());
-		scope.create("-", NativeFunctions.subtraction());
-		scope.create("*", NativeFunctions.mutliplication());
-		scope.create("/", NativeFunctions.division());
-		scope.create("=", NativeFunctions.numberEquality());
-		scope.create("abs", NativeFunctions.abs());
-		scope.create("list", NativeFunctions.list());
-		scope.create("map", NativeFunctions.map());
-		scope.create("car", NativeFunctions.car());
-		scope.create("cdr", NativeFunctions.cdr());
+		scope.create(new SymbolExpression("+"), NativeFunctions.addition());
+		scope.create(new SymbolExpression("-"), NativeFunctions.subtraction());
+		scope.create(new SymbolExpression("*"),
+				NativeFunctions.mutliplication());
+		scope.create(new SymbolExpression("/"), NativeFunctions.division());
+		scope.create(new SymbolExpression("="),
+				NativeFunctions.numberEquality());
+		scope.create(new SymbolExpression("abs"), NativeFunctions.abs());
+		scope.create(new SymbolExpression("list"), NativeFunctions.list());
+		scope.create(new SymbolExpression("map"), NativeFunctions.map());
+		scope.create(new SymbolExpression("car"), NativeFunctions.car());
+		scope.create(new SymbolExpression("cdr"), NativeFunctions.cdr());
 
 		return scope;
 	}
@@ -36,8 +38,8 @@ public class REPL {
 			try {
 				String input = sc.nextLine();
 				Expression ex = parser.parse(input);
-				Expression result = ex.evaluate(globalScope);
-				System.out.println(result.getPrintValue());
+				Type result = ex.evaluate(globalScope);
+				System.out.println(result.getDisplayValue());
 			} catch (Exception e) {
 				System.out.println(e);
 			}

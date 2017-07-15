@@ -13,11 +13,8 @@ final class NumberExpression extends ConstantExpression {
 		return this.value;
 	}
 
-	Expression evaluate(Scope scope) {
-		return this;
-	}
-
-	String getPrintValue() {
+	String getDisplayValue() {
 		return this.value.toString();
 	}
+
 }

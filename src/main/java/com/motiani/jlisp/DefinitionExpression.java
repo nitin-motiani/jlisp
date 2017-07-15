@@ -1,24 +1,20 @@
 package com.motiani.jlisp;
 
-final class DefinitionExpression extends Expression {
-	private String variable;
-	private Expression expression;
+import java.util.List;
 
-	public DefinitionExpression(String variable, Expression expression) {
-		this.variable = variable;
-		this.expression = expression;
+final class DefinitionExpression extends ListExpression {
+
+	DefinitionExpression(List<Type> items) {
+		super(items);
 	}
 
-	// This doesn't make sense right now. Will be revisited when we implement
-	// quote
-	String getPrintValue() {
-		return "definition";
-	}
+	public Type evaluate(Scope scope) {
+		assert (items.size() == 3);
+		assert (Keywords.DEFINE.equals(items.get(0)));
 
-	Expression evaluate(Scope scope) {
+		SymbolExpression variable = (SymbolExpression) items.get(1);
+		Expression expression = (Expression) items.get(2);
 		scope.create(variable, expression.evaluate(scope));
-		// TODO: Figure this out. Currently doing this in accordance with what
-		// the scheme REPL shows me
-		return new VariableExpression(variable);
+		return variable;
 	}
 }

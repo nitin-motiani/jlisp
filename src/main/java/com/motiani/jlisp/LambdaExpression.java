@@ -1,48 +1,33 @@
 package com.motiani.jlisp;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.motiani.jlisp.UserFunctionExpression.UserFunctionArgType;
+final class LambdaExpression extends ListExpression {
 
-final class LambdaExpression extends Expression {
-
-	private List<String> argNames;
-	private UserFunctionArgType userFunctionArgType;
-	private List<Expression> functionBody;
-
-	private LambdaExpression(List<String> argNames,
-			UserFunctionArgType userFunctionArgType, List<Expression> body) {
-		this.argNames = argNames;
-		this.userFunctionArgType = userFunctionArgType;
-		this.functionBody = body;
+	LambdaExpression(List<Type> items) {
+		super(items);
 	}
 
-	static LambdaExpression createWithConstArgs(List<String> argNames,
-			List<Expression> body) {
-		return new LambdaExpression(argNames,
-				UserFunctionArgType.CONSTANT_ARGS, body);
-	}
+	public Type evaluate(Scope scope) {
+		assert (items.size() >= 3);
+		assert (Keywords.LAMBDA.equals(items.get(0)));
 
-	static LambdaExpression createWithVarArgs(String argName,
-			List<Expression> body) {
-		return new LambdaExpression(Collections.singletonList(argName),
-				UserFunctionArgType.VARIABLE_ARGS, body);
+		Type args = items.get(1);
+		List<Expression> functionBody = items.stream().skip(2)
+				.map(item -> (Expression) item).collect(Collectors.toList());
 
-	}
-
-	Expression evaluate(Scope scope) {
-		if (userFunctionArgType.equals(UserFunctionArgType.CONSTANT_ARGS))
+		if (args instanceof ListExpression) {
+			List<SymbolExpression> argNames = ((ListExpression) args)
+					.getItems().stream().map(arg -> (SymbolExpression) arg)
+					.collect(Collectors.toList());
 			return UserFunctionExpression.createWithConstArgs(functionBody,
 					argNames, scope);
-		else
+		} else if (args instanceof SymbolExpression) {
 			return UserFunctionExpression.createWithVarArgs(functionBody,
-					argNames.get(0), scope);
-	}
-
-	// This doesn't make sense right now. Will be revisited when we implement
-	// quote
-	String getPrintValue() {
-		return "lambda";
+					(SymbolExpression) args, scope);
+		} else {
+			throw new IllegalArgumentException("Invalid lambda expression");
+		}
 	}
 }

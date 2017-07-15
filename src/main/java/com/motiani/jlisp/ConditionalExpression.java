@@ -1,33 +1,32 @@
 package com.motiani.jlisp;
 
-final class ConditionalExpression extends Expression {
-	private Expression conditionExpression;
-	private Expression ifExpression;
-	private Expression elseExpression;
+import java.util.List;
 
-	ConditionalExpression(Expression conditionExpression,
-			Expression ifExpression, Expression elseExpression) {
-		this.conditionExpression = conditionExpression;
-		this.ifExpression = ifExpression;
-		this.elseExpression = elseExpression;
+final class ConditionalExpression extends ListExpression {
+
+	ConditionalExpression(List<Type> items) {
+		super(items);
 	}
 
-	// This doesn't make sense right now. Will be revisited when we implement
-	// quote
-	String getPrintValue() {
-		return "conditional";
-	}
+	public Type evaluate(Scope scope) {
+		assert (items.size() == 3 || items.size() == 4);
+		assert (Keywords.IF.equals(items.get(0)));
 
-	Expression evaluate(Scope scope) {
+		Expression conditionExpression = (Expression) (items.get(1));
+		Expression ifExpression = (Expression) (items.get(2));
+		Expression elseExpression = (items.size() == 4) ? (Expression) items
+				.get(3) : null;
+
 		// TODO: Are there better ways to figure out the return type of the
 		// expression before we evaluate everything.
-		Expression result = conditionExpression.evaluate(scope);
+		Type result = conditionExpression.evaluate(scope);
 		if (!(result instanceof BooleanExpression))
 			throw new RuntimeException("The condition evaluate to a boolean");
 
 		if (((BooleanExpression) result).getValue())
 			return ifExpression.evaluate(scope);
 		else
+			// Handle possible NPE better
 			return elseExpression.evaluate(scope);
 	}
 }
