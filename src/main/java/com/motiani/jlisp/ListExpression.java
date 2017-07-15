@@ -38,8 +38,8 @@ final class ListExpression extends Expression {
 
 	}
 
-	String getPrintValue() {
-		String value = this.items.stream().map(expr -> expr.getPrintValue())
+	String getDisplayValue() {
+		String value = this.items.stream().map(expr -> expr.getDisplayValue())
 				.collect(Collectors.joining(" "));
 		return "(" + value + ")";
 	}

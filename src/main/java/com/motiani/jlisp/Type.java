@@ -6,5 +6,5 @@ abstract class Type {
 	// every type of expression to implement this. But when we introduce symbols
 	// and quotes, this is going to get complicated. At that time, I'll revisit
 	// this construct
-	abstract String getPrintValue();
+	abstract String getDisplayValue();
 }

@@ -39,7 +39,7 @@ public class REPL {
 				String input = sc.nextLine();
 				Expression ex = parser.parse(input);
 				Type result = ex.evaluate(globalScope);
-				System.out.println(result.getPrintValue());
+				System.out.println(result.getDisplayValue());
 			} catch (Exception e) {
 				System.out.println(e);
 			}

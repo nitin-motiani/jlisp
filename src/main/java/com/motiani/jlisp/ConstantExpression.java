@@ -1,8 +1,8 @@
 package com.motiani.jlisp;
 
-// TODO: Most likely this will be deleted
+// These are the Self evaluation expressions in lisp. 
 abstract class ConstantExpression extends Expression {
-	// TODO: Not 100% clear on this idea of having two functions. Maybe there
-	// can be separate interface for this stuff.
-	abstract Object getValue();
+	public Type evaluate(Scope scope) {
+		return this;
+	}
 }

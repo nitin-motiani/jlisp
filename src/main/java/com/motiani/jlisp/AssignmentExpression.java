@@ -12,7 +12,7 @@ final class AssignmentExpression extends Expression {
 
 	// This doesn't make sense right now. Will be revisited when we implement
 	// quote
-	String getPrintValue() {
+	String getDisplayValue() {
 		return "assignment";
 	}
 

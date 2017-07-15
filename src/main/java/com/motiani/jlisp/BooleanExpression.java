@@ -12,11 +12,7 @@ final class BooleanExpression extends ConstantExpression {
 		return this.value;
 	}
 
-	String getPrintValue() {
+	String getDisplayValue() {
 		return String.valueOf(this.value);
-	}
-
-	public Type evaluate(Scope scope) {
-		return this;
 	}
 }
