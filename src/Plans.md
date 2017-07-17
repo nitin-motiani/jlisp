@@ -198,6 +198,9 @@ a (+ 1 2). Will handle this later. Handled now by failing on parsing.
 
 28. Not going to allow redefining of syntactic keywords. 
 
+29. An important reason behind not making function out of special form things are that functions will get their 
+args evaluated, and we wouldn't want that lot of times with special forms. 
+
 Exception Types Required :- 
 1. Variable not found. Scheme REPL shows me unbound variable. So may show some cool message like that
 2. Condition in if should be boolean type
@@ -393,4 +396,50 @@ function.
     (define g (lambda (x) (f x 2)))
     
 18. (define fn ())
+19. if - needs correct error
+
+20. (define f-nil (lambda (a) (set! a 1)))
+	(define a 1)
+	(f-nil a)
+	a
+
+V3 :- 
+
+1. Implementing let should be simple enough. Just need to have a scope creation and evaluate logic. 
+Very very similar to function
+
+2. When macros are to be implemented, the whole keywords logic will need to be revisited. Macro defined things are 
+basically new keywords. So we'll probably need a map to handle those. And I am thinking that we'll have to 
+create some sort of anonymous inner class on the run to do what those things do at runtime. 
+
+
+Examples :- 
+
+1. (define-syntax lel (syntax-rules () ((_) (+ 1 2))))
+   (lel) 
+   lel -> Becomes a syntactic keyword
+   
+2. (let ((x 10) (y 20)) (+ x y))
+
+3. (let ((x 10) (y 20)) (+ x y) (* x y))
+
+4. (let ((x 10) (y 20)) (+ x y) (set! x 100) (* x y))
+
+5. (define x 2)
+   (let ((a 20)) (define x 10)) -> need to figure out this case
+   
+6. (define x 2)
+   (let ((a 20)) (set! x 10))
+   x
+   
+7. (let ((a 20)) (let x 10))
+
+8. (let ((a 20)) (quote x))
+
+9. (let ((a (+ 1 2))) ())
+
+10. (define x 10)
+	(let ((a (+ x 10))) a)
+	(let ((x 5) (a (* x 10))) a)
+
 

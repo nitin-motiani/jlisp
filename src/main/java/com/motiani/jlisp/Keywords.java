@@ -6,4 +6,5 @@ class Keywords {
 	static SymbolExpression ASSIGN = new SymbolExpression("set!");
 	static SymbolExpression LAMBDA = new SymbolExpression("lambda");
 	static SymbolExpression QUOTE = new SymbolExpression("quote");
+	static SymbolExpression LET = new SymbolExpression("let");
 }

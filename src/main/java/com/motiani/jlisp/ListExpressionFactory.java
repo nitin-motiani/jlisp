@@ -35,6 +35,8 @@ class ListExpressionFactory {
 			return new LambdaExpression(items);
 		} else if (Keywords.QUOTE.equals(symbol)) {
 			return new QuoteExpression(items);
+		} else if (Keywords.LET.equals(symbol)) {
+			return new LetExpression(items);
 		} else {
 			return new ProcedureExpression(items);
 		}
