@@ -41,8 +41,8 @@ class Parser {
 		while (m.find())
 			tokens.add(m.group(1).trim());
 
-		// I was hoping to get rid of this, but it seems empty strings still
-		// slip through so getting rid of those
+		// I was hoping to get rid of this codes, but it seems empty strings
+		// still slip through so filtering those
 		return tokens.stream().filter(StringUtils::isNotEmpty)
 				.collect(Collectors.toCollection(LinkedList::new));
 	}

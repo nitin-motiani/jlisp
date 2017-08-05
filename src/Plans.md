@@ -412,6 +412,42 @@ Very very similar to function
 basically new keywords. So we'll probably need a map to handle those. And I am thinking that we'll have to 
 create some sort of anonymous inner class on the run to do what those things do at runtime. 
 
+3. From OnLisp :- A function produces results, but a macro produces expressions—which, when evaluated, produce results.
+This can help clean up design even better
+
+4. May do the other form of let which has the name given to block too. Will have to create a function and call
+that with the provided binding
+
+5. So there is concept of hygenic and non-hygenic macros. Scheme macros are hygeinic, but seem more painful to 
+understand/implement at this point. So I may end up doing a more clisp like syntax with unhygenic macros in my dialect. 
+
+6. Need to have very clear idea of macroexpansion and evaluation phases. That's important to be able to build a mental 
+model of a macro
+
+7. Need to figure out how recursive macroexpansion will work
+
+8. There is a relation between quote and backquote (onlisp)
+
+9. What is the point of a macro like this? (nif a b c d)
+(defmacro nif (a b c d) `(if ,(> a 0) ,b (if ,(= a 0) ,c ,d)))
+
+Everything is getting evaluated so no different from just using function. So why use it? 
+How do I make a macro like and which only evaluates the second argument if the first argument is true
+
+Seems like the macro implementation above is totally wrong. 
+This is the correct one :- 
+(defmacro nif-2 (a b c d) `(if (> ,a 0) ,b (if (= ,a 0) ,c ,d)))
+
+// This has same result, but expansion is completely different
+(defmacro nif-2 (a b c d) (if (> a 0) b (if (= a 0) c d)))
+
+That throws away all my mental model of macro expansion though
+Or maybe not. a, b, c, d are SymbolExpressions. The value they are referring to 
+can be lists now. Since we pass unevaluated args to macros unlike functions, so ,a will just give the 
+list we had passed ((car b) for example). And that would be replaced in its place. All that happens in the scope 
+of macro expansion. While after that evaluation happens. So it's fine, that's why the actual expression is not 
+evaluated during the expansion phase, rather just replaced properly
+
 
 Examples :- 
 
@@ -441,5 +477,53 @@ Examples :-
 10. (define x 10)
 	(let ((a (+ x 10))) a)
 	(let ((x 5) (a (* x 10))) a)
+	
+11. (define switch (lambda (a val exp1 exp2) (if (= a val) exp1 exp2)))
+	(define a 3)
+	(switch a 3 (+ a 2) (car a))
 
+12. (list (quote set!) (quote a) 2)
+13 (quote (set! a 2))
+14. (quote (set! ,a 2))
+	'(set! ,a 2)
+	`(set! ,a 2)
+	
+15. 'a
+	',a
+	`a
+	`,a
+	
+16. (let lel ((a 2) (b 4)) (+ a b))
+17. ((define f (lambda (x) (* 2 x))) (f 2))
+18. (let fact ((a 5)) (if (= a 0) 1 (* a (fact (- a 1)))))
+
+19. clisp style macro :- 
+    (defmacro fact (a) `(if ,(= a 0) 1 (* ,a (fact ,(- a 1)))))
+	(defmacro fact (a) `(if (= a 0) 1 (* ,a (fact ,(- a 1)))))
+	(defmacro fact (a) `(if ,(= a 0) 1 (* a (fact ,(- a 1)))))
+	(defmacro fact (a) `(if ,(= a 0) 1 (* ,a (fact (- a 1)))))
+	
+20. (defmacro fact2 (a) (list 'if (= a 0) 1 (list '* a (list 'fact2 (- a 1)))))
+
+21. (defmacro my-and (a b) `(if ,(not a) nil ,b))
+	(defmacro my-and (a b) `(if (not ,a) nil ,b))
+	
+22. (define a '(car l))
+    a
+    'a
+    `,a
+    ,a
+    
+23. (define x 10)
+	(define a 10)
+	(defmacro test (a) `(+ x a)
+	(defmacro test (a) `(+ ,x a)
+	(defmacro test (a) `(+ x ,a)
+	(defmacro test (a) `(+ ,x ,a)
+	
+24. (quasiquote (car l) (unquote (cdr l)))
+
+25. (define a 1 2)
+
+26. (quasiquote (if (> (car (unquote l)) 0) (cdr l)))
 

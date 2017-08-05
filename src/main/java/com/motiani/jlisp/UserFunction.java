@@ -3,7 +3,7 @@ package com.motiani.jlisp;
 import java.util.Collections;
 import java.util.List;
 
-final class UserFunctionExpression extends Function {
+final class UserFunction extends Function {
 
 	static enum UserFunctionArgType {
 		CONSTANT_ARGS, VARIABLE_ARGS
@@ -18,7 +18,7 @@ final class UserFunctionExpression extends Function {
 	private UserFunctionArgType userFunctionArgType;
 	private Scope parentScope;
 
-	private UserFunctionExpression(List<Expression> body,
+	private UserFunction(List<Expression> body,
 			List<SymbolExpression> argNames,
 			UserFunctionArgType userFunctionArgType, Scope parentScope) {
 		this.body = body;
@@ -27,15 +27,15 @@ final class UserFunctionExpression extends Function {
 		this.parentScope = parentScope;
 	}
 
-	static UserFunctionExpression createWithConstArgs(List<Expression> body,
+	static UserFunction createWithConstArgs(List<Expression> body,
 			List<SymbolExpression> argNames, Scope parentScope) {
-		return new UserFunctionExpression(body, argNames,
+		return new UserFunction(body, argNames,
 				UserFunctionArgType.CONSTANT_ARGS, parentScope);
 	}
 
-	static UserFunctionExpression createWithVarArgs(List<Expression> body,
+	static UserFunction createWithVarArgs(List<Expression> body,
 			SymbolExpression argName, Scope parentScope) {
-		return new UserFunctionExpression(body,
+		return new UserFunction(body,
 				Collections.singletonList(argName),
 				UserFunctionArgType.VARIABLE_ARGS, parentScope);
 	}

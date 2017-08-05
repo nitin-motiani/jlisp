@@ -21,10 +21,10 @@ final class LambdaExpression extends ListExpression {
 			List<SymbolExpression> argNames = ((ListExpression) args)
 					.getItems().stream().map(arg -> (SymbolExpression) arg)
 					.collect(Collectors.toList());
-			return UserFunctionExpression.createWithConstArgs(functionBody,
+			return UserFunction.createWithConstArgs(functionBody,
 					argNames, scope);
 		} else if (args instanceof SymbolExpression) {
-			return UserFunctionExpression.createWithVarArgs(functionBody,
+			return UserFunction.createWithVarArgs(functionBody,
 					(SymbolExpression) args, scope);
 		} else {
 			throw new IllegalArgumentException("Invalid lambda expression");

@@ -19,6 +19,7 @@ class ListExpressionFactory {
 		}
 	};
 
+	// This looked like a good idea at the time. Now I am not so sure
 	static ListExpression createListExpression(List<Data> items) {
 		if (items.size() == 0)
 			return emptyList;
@@ -37,6 +38,10 @@ class ListExpressionFactory {
 			return new QuoteExpression(items);
 		} else if (Keywords.LET.equals(symbol)) {
 			return new LetExpression(items);
+		} else if (Keywords.UNQUOTE.equals(symbol)) {
+			return new UnquoteExpression(items);
+		} else if (Keywords.QUASIQUOTE.equals(symbol)) {
+			return new QuasiquoteExpression(items);
 		} else {
 			return new ProcedureExpression(items);
 		}
