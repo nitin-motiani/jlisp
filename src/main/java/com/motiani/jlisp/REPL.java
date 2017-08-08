@@ -21,6 +21,7 @@ public class REPL {
 		scope.create(new SymbolExpression("map"), NativeFunctions.map());
 		scope.create(new SymbolExpression("car"), NativeFunctions.car());
 		scope.create(new SymbolExpression("cdr"), NativeFunctions.cdr());
+		scope.create(new SymbolExpression("len"), NativeFunctions.len());
 
 		return scope;
 	}

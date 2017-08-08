@@ -163,7 +163,7 @@ class NativeFunctions {
 										throw new IllegalArgumentException(
 												"Invalid argument "
 														+ expression
-														+ " for subtraction");
+														+ " for equality");
 								}).collect(Collectors.toSet()).size() == 1;
 
 				return new BooleanExpression(result);
@@ -220,6 +220,26 @@ class NativeFunctions {
 			@Override
 			Data call(List<Data> args) {
 				return ListExpressionFactory.createListExpression(args);
+			}
+		};
+	}
+
+	static Function len() {
+		return new Function() {
+
+			@Override
+			Data call(List<Data> args) {
+				if (args.size() != 1) {
+					throw new IllegalArgumentException(
+							"len can take exactly one argument");
+				}
+
+				if (!(args.get(0) instanceof ListExpression))
+					throw new IllegalArgumentException(
+							"len can take only list argument");
+
+				int listSize = ((ListExpression) args.get(0)).getItems().size();
+				return new NumberExpression(new BigDecimal(listSize));
 			}
 		};
 	}

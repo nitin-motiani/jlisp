@@ -581,3 +581,12 @@ Examples :-
 
 28. (defmacro test-multiple (a) (setq a (+ 2 a)) `(* 3 ,a))
 
+29. (defmacro my-and-2 (args) (if (= (len args) 0) true (if (= (len args) 1) (car args) (let ((s (car args)) (r (cdr args))) (quasiquote (if (unquote s) (my-and-2 (unquote r)) false))))))
+(defmacro my-and args (quasiquote (my-and-2 (unquote args))))
+
+30. (defmacro my-and-helper (args) (if (= (len args) 0) true (let ((first (car args)) (rest (cdr args))) (quasiquote (if (unquote first) (my-and-helper (unquote rest)) false)))))
+(defmacro my-and args (quasiquote (my-and-helper (unquote args))))
+
+31. (defmacro my-and-helper (args) (if (= (len args) 0) true (quasiquote (if (unquote (car args)) (my-and-helper (unquote (cdr args))) false))))
+
+
