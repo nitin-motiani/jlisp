@@ -42,6 +42,8 @@ class ListExpressionFactory {
 			return new UnquoteExpression(items);
 		} else if (Keywords.QUASIQUOTE.equals(symbol)) {
 			return new QuasiquoteExpression(items);
+		} else if (Keywords.DEFMACRO.equals(symbol)) {
+			return new MacroDefinitionExpression(items);
 		} else {
 			return new ProcedureExpression(items);
 		}

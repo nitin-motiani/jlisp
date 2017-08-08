@@ -9,4 +9,5 @@ class Keywords {
 	static SymbolExpression LET = new SymbolExpression("let");
 	static SymbolExpression UNQUOTE = new SymbolExpression("unquote");
 	static SymbolExpression QUASIQUOTE = new SymbolExpression("quasiquote");
+	static SymbolExpression DEFMACRO = new SymbolExpression("defmacro");
 }

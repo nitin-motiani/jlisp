@@ -448,6 +448,56 @@ list we had passed ((car b) for example). And that would be replaced in its plac
 of macro expansion. While after that evaluation happens. So it's fine, that's why the actual expression is not 
 evaluated during the expansion phase, rather just replaced properly
 
+10. So macros can have multiple expressions in the body, and we return the last one. Just like functions
+And defmacro seems a bit like a lambda. The only thing is how to do a recursive macro expansion
+
+And what is the time when macro expansion should be done. Should it be done before evaluation state. 
+It probably makes sense to take the AST from parser output and create new AST after macro expansion (where 
+one can do the recursive stuff too). 
+
+11. A macro expansion needs a scope for sure since there is an expression which is evaluated there. The question is 
+what scope should that be. Or is it the macro creation which requires scope. I would say evaluation. But not so sure
+eg :- 
+
+(defmacro scope-test (a) `(+ ,a ,x))
+(defun scope-func (a) (let ((x 15)) (scope-test x))
+
+Here when macro is expanded, it's taking the value of x in global scope. Not in the let block scope. 
+So that means the scope is not the evaluation type scope. Or Maybe I am wrong. It's possible that the scope is 
+the scope at the time function is created. So it's evaluation type scope of the function creation. 
+
+(defun scope-inner () (let ((x 15)) (lambda (a) (scope-test a))))
+
+Here also the scope-test expansion used the global scope and not the local binding of x. So it seems the expansion
+is not happening at the time of lambda evaluation. Rather at the time of expression creation. Basically seems more 
+reasonable that the expander needs to sit between parser and evaluator. 
+
+12. Can there be a defmacro inside a function? Apparently yes. No idea how to use it though. 
+
+13. Does defmacro go through macroexpansion phase? 
+
+This is confusing as hell at this point :( 
+
+Seems like macro expansion is only limited to the first entry in the list being a macro name. This simplifies 
+things like hell. I don't have to keep parsing an expression like crazy and expand it. Could be simpler way to do 
+such shit. Or maybe I do need to write a code walker :(
+
+14. Seems like a recursive macro thing only works with an interprater (which I am building) and not with a compiler. 
+So question is whether to have macro expansion part of the evaluaiton code, and just expand at the root. And 
+expand macros as needed. Or write a more code walker type thingy before evaluation which does the whole evaluation
+and hence will technically work with compiler stuff too. First approach seems a lot more doable at this point. 
+Of course, then the question is what environment the macro expansion really works in. I would think doing it 
+like lexical scoping. Doing it in the environment it was created in. Anyway, we'd rather try to reduce the variable
+capture thingies to reduce the impact of environment as much as possible. 
+
+15. For now implement macros with a function inside like OnLisp explains them. This way we avoid duplication of code. 
+
+Out of Scope :- 
+
+1. Macros defined inside functions, it seems. Definitely macrolet stuff
+2. Macros with variable number of args. At least for time being. May bring those in once the implementation becomes
+clearer. 
+
 
 Examples :- 
 
@@ -526,4 +576,8 @@ Examples :-
 25. (define a 1 2)
 
 26. (quasiquote (if (> (car (unquote l)) 0) (cdr l)))
+
+27. (defmacro test-multiple (a) `(+ 2 ,a) `(* 3 ,a))
+
+28. (defmacro test-multiple (a) (setq a (+ 2 a)) `(* 3 ,a))
 
