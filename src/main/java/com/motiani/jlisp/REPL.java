@@ -1,6 +1,6 @@
 package com.motiani.jlisp;
 
-import java.util.Scanner;
+import java.util.LinkedList;
 
 /**
  * Hello world!
@@ -30,15 +30,12 @@ public class REPL {
 		Parser parser = new Parser();
 		Scope globalScope = createGlobalScope();
 
-		Scanner sc = new Scanner(System.in);
-		// TODO: For some weird reason this doesn't always work. Will have to
-		// figure out.
-		// When Ctrl + D is hit, hasNextLine returns false. So we end the
-		// loop, and close the scanner
-		while (sc.hasNextLine()) {
+		Reader reader = new Reader(System.in);
+
+		while (!reader.isEof()) {
 			try {
-				String input = sc.nextLine();
-				Expression ex = parser.parse(input);
+				LinkedList<String> tokens = reader.getTokenizedInput();
+				Expression ex = parser.parse(tokens);
 				Data result = ex.evaluate(globalScope);
 				System.out.println(result.getDisplayValue());
 			} catch (Exception e) {
@@ -46,6 +43,6 @@ public class REPL {
 			}
 		}
 
-		sc.close();
+		reader.close();
 	}
 }

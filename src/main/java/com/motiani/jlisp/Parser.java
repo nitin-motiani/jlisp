@@ -5,49 +5,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.NumberUtils;
-import org.apache.commons.lang.StringUtils;
 
 class Parser {
 
 	// TODO : See if we can get rid of this
 	private final List<String> reserved = Arrays.asList("(", ")");
 
-	// The reason for return type linked list is that we can easily peek top
-	// elements and pop them from a linked list. The reason behind returning
-	// LinkedList instead of List is that the contract is clear that a linked
-	// list will be returned and callers know they pop element in O(1)
-	private LinkedList<String> tokanize(String exp) {
-		if (exp == null)
-			throw new IllegalArgumentException("Can't parse null expression");
-
-		LinkedList<String> tokens = new LinkedList<String>();
-		// What this complicated regex does
-		// Either match an opening or closing paran
-		// Or match string which starts with anything other than double quote or
-		// opening/closing parans,
-		// and after that can have any number of non space characters apart from
-		// parans
-		// Or match a string which starts with a double quote and can have any
-		// other characters after that and then ends with a closing double quote
-		Matcher m = Pattern.compile(
-				"([\\(\\)]|[^\"\\(\\)][\\S&&[^\\(\\)]]*|\".+?\")\\s*").matcher(
-				exp);
-		while (m.find())
-			tokens.add(m.group(1).trim());
-
-		// I was hoping to get rid of this codes, but it seems empty strings
-		// still slip through so filtering those
-		return tokens.stream().filter(StringUtils::isNotEmpty)
-				.collect(Collectors.toCollection(LinkedList::new));
-	}
-
-	private Expression parse(LinkedList<String> tokens) {
+	// TODO: Not perfectly satisfied with the idea of mutating tokens, but at
+	// this point I am not seeing a better way to do this. One possible idea is
+	// to have a more stream like thing from tokenizer to parser
+	// so that the code can be written in a potentially better way.
+	Expression parse(LinkedList<String> tokens) {
 		// TODO: Need to see if null is the right thing to do here
 		if (CollectionUtils.isEmpty(tokens))
 			return null;
@@ -135,18 +106,5 @@ class Parser {
 
 		return expressions;
 
-	}
-
-	Expression parse(String expStr) {
-		if (expStr == null)
-			throw new IllegalArgumentException("Can't parse null expression");
-		LinkedList<String> tokens = tokanize(expStr);
-		Expression expression = parse(tokens);
-
-		// We should've parsed all the tokens by this point.
-		if (tokens.size() > 0) {
-			throw new IllegalArgumentException("Invalid token " + tokens.get(0));
-		}
-		return expression;
 	}
 }
