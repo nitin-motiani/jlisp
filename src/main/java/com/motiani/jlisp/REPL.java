@@ -36,6 +36,9 @@ public class REPL {
 			try {
 				LinkedList<String> tokens = reader.getTokenizedInput();
 				Expression ex = parser.parse(tokens);
+				// TODO : Find a cleaner way
+				if (ex == null)
+					continue;
 				Data result = ex.evaluate(globalScope);
 				System.out.println(result.getDisplayValue());
 			} catch (Exception e) {

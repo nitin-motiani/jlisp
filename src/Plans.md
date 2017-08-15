@@ -496,8 +496,9 @@ Out of Scope :-
 
 1. Macros defined inside functions, it seems. Definitely macrolet stuff
 2. Macros with variable number of args. At least for time being. May bring those in once the implementation becomes
-clearer. 
-
+clearer. This has been implemented but in a shoddy manner. 
+3. Multiple expressions input on one line. 
+4. Reader regex is extremely ugly. Also does not handle all cases. 
 
 Examples :- 
 
@@ -592,4 +593,9 @@ Examples :-
 32. (set! a "")
 
 33. (define a ")
+
+34. (define a"lel 2)
+
+35. (define a"lel" 2)
+
 
