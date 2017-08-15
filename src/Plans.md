@@ -589,4 +589,7 @@ Examples :-
 
 31. (defmacro my-and-helper (args) (if (= (len args) 0) true (quasiquote (if (unquote (car args)) (my-and-helper (unquote (cdr args))) false))))
 
+32. (set! a "")
+
+33. (define a ")
 

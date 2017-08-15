@@ -62,7 +62,7 @@ class Reader {
 			// and can have any other characters after that and then ends with a
 			// closing double quote
 			Matcher m = Pattern.compile(
-					"([\\(\\)]|[^\"\\(\\)][\\S&&[^\\(\\)]]*|\".+?\")\\s*")
+					"([\\(\\)]|[^\"\\(\\)][\\S&&[^\\(\\)]]*|\".*?\")\\s*")
 					.matcher(exp);
 			while (m.find()) {
 				String token = m.group(1).trim();
